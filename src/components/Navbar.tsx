@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, X } from 'lucide-react';
 import { NAV_ITEMS } from '../data/portfolioData';
+import { BrandWordmark } from './BrandWordmark';
 
 export const Navbar: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -12,34 +13,25 @@ export const Navbar: React.FC = () => {
     >
       <div className="w-full max-w-[1680px] mx-auto flex items-center justify-between">
         
-        {/* ================= LEFT: Brand Identity (Custom MQ Logo) ================= */}
+        {/* Text-based brand wordmark. */}
         <a
           href="#"
           className="flex items-center group focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 rounded-lg py-1"
           aria-label="Mohammed Qais — Portfolio Home"
         >
-          <img
-            src="/images/mq-logo.png"
-            alt="Mohammed Qais Logo"
-            className="h-6 sm:h-7 md:h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105 select-none"
-            style={{
-              imageRendering: '-webkit-optimize-contrast',
-              transform: 'translateZ(0)',
-              backfaceVisibility: 'hidden',
-            }}
-          />
+          <BrandWordmark />
         </a>
 
         {/* ================= RIGHT: Merged Navigation Capsule & CTA (Subtle Glassmorphism) ================= */}
         <nav
-          className="hidden lg:flex items-center gap-1 xl:gap-1.5 p-1.5 pl-3.5 sm:pl-4 rounded-full bg-slate-950/80 backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(15,23,42,0.25),inset_0_1px_0.5px_rgba(255,255,255,0.18)] transition-all duration-300"
+          className="site-desktop-nav items-center gap-1 xl:gap-1.5 p-1.5 pl-3.5 sm:pl-4 rounded-full bg-slate-950/90 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(15,23,42,0.25),inset_0_1px_0.5px_rgba(255,255,255,0.18)] transition-all duration-300"
           aria-label="Main Navigation"
         >
           {NAV_ITEMS.map((item) => (
             <a
               key={item.label}
               href={item.href}
-              className="px-3 py-1.5 text-[13px] font-medium text-slate-300 hover:text-white rounded-full hover:bg-white/10 transition-all duration-150"
+              className="px-3 py-1.5 text-[13px] font-medium text-slate-200 hover:text-white rounded-full hover:bg-white/10 transition-all duration-150"
             >
               {item.label}
             </a>
@@ -59,11 +51,15 @@ export const Navbar: React.FC = () => {
         <button
           type="button"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="lg:hidden p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 transition-colors"
+          className="site-menu-toggle inline-flex h-11 w-11 items-center justify-center p-2 rounded-xl text-slate-700 hover:text-slate-900 hover:bg-slate-100/80 focus:outline-none focus-visible:ring-2 focus-visible:ring-violet-600 transition-colors"
           aria-expanded={mobileMenuOpen}
           aria-label="Toggle navigation menu"
         >
-          {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {mobileMenuOpen ? <X aria-hidden="true" className="w-6 h-6" /> : (
+            <svg aria-hidden="true" className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M7 6h10M3 12h18M7 18h10" />
+            </svg>
+          )}
         </button>
       </div>
 
@@ -75,7 +71,7 @@ export const Navbar: React.FC = () => {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: 'easeInOut' }}
-            className="lg:hidden overflow-hidden rounded-2xl mt-2 border border-white/15 bg-slate-950/85 backdrop-blur-xl px-4 pt-3 pb-5 shadow-xl shadow-slate-950/30"
+            className="site-mobile-nav overflow-hidden rounded-2xl mt-2 border border-white/15 bg-slate-950/85 backdrop-blur-xl px-4 pt-3 pb-5 shadow-xl shadow-slate-950/30"
           >
             <div className="flex flex-col gap-1.5">
               {NAV_ITEMS.map((item) => (
@@ -83,7 +79,7 @@ export const Navbar: React.FC = () => {
                   key={item.label}
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-300 hover:text-white hover:bg-slate-800/80 transition-colors"
+                  className="px-3.5 py-2 rounded-xl text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/80 transition-colors"
                 >
                   {item.label}
                 </a>
@@ -107,4 +103,3 @@ export const Navbar: React.FC = () => {
 };
 
 export default Navbar;
-

@@ -3,6 +3,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Globe, ArrowRight, ArrowUpRight } from 'lucide-react';
 import { GithubIcon } from './SocialIcons';
 import { CONTACT_SECTION_DATA } from '../data/portfolioData';
+import { SectionHeader } from './SectionHeader';
 
 export const ContactSection: React.FC = () => {
   const shouldReduceMotion = useReducedMotion();
@@ -15,8 +16,13 @@ export const ContactSection: React.FC = () => {
   };
 
   return (
-    <section id="contact" className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-slate-200/60">
+    <section id="contact" className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader label="Let's Work Together" watermark="CONTACT">
+          <span>Have a </span>
+          <span className="text-violet-600">project</span>
+          <span> in mind?</span>
+        </SectionHeader>
         
         {/* ================= DISTINCTIVE CONTACT BANNER CARD ================= */}
         <motion.div
@@ -37,19 +43,6 @@ export const ContactSection: React.FC = () => {
             
             {/* Left Content Column (7 cols) */}
             <div className="lg:col-span-7 flex flex-col items-start">
-              {/* Eyebrow */}
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-4 h-0.5 bg-violet-600 rounded-full" />
-                <span className="text-xs font-bold tracking-widest text-violet-950 uppercase">
-                  {CONTACT_SECTION_DATA.label}
-                </span>
-              </div>
-
-              {/* Headline */}
-              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-950 tracking-tight leading-[1.1] mb-3">
-                {CONTACT_SECTION_DATA.heading}
-              </h2>
-
               {/* Subtitle */}
               <p className="text-base sm:text-lg text-slate-700 font-medium mb-8 max-w-lg leading-relaxed">
                 {CONTACT_SECTION_DATA.subtitle}
@@ -91,7 +84,7 @@ export const ContactSection: React.FC = () => {
                   <Mail className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs text-slate-600 font-semibold block">Direct Email</span>
+                  <span className="text-xs text-copy-secondary font-semibold block">Direct Email</span>
                   <span className="text-sm font-bold text-slate-950 group-hover:text-violet-700 transition-colors truncate block">
                     {CONTACT_SECTION_DATA.email}
                   </span>
@@ -109,7 +102,7 @@ export const ContactSection: React.FC = () => {
                   <Globe className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs text-slate-600 font-semibold block">Digital Venture</span>
+                  <span className="text-xs text-copy-secondary font-semibold block">Digital Venture</span>
                   <span className="text-sm font-bold text-slate-950 group-hover:text-violet-700 transition-colors truncate block">
                     www.qdelta.in
                   </span>
@@ -127,7 +120,7 @@ export const ContactSection: React.FC = () => {
                   <GithubIcon className="w-5 h-5" />
                 </div>
                 <div className="min-w-0">
-                  <span className="text-xs text-slate-500 font-medium block">Open Source & Code</span>
+                  <span className="text-xs text-copy-muted font-medium block">Open Source & Code</span>
                   <span className="text-sm font-semibold text-slate-900 group-hover:text-violet-700 transition-colors truncate block">
                     github.com/mdqais29
                   </span>
@@ -135,7 +128,7 @@ export const ContactSection: React.FC = () => {
               </a>
 
               {/* Status Badge */}
-              <div className="pt-2 border-t border-slate-100 mt-1">
+              <div className="pt-2 border-t border-stroke/75 mt-1">
                 <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-emerald-50/70 border border-emerald-200/60 text-xs font-medium text-emerald-800">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                   <span>{CONTACT_SECTION_DATA.statusText}</span>

@@ -8,6 +8,7 @@ import {
   EducationItem,
   CertificationItem 
 } from '../data/portfolioData';
+import { SectionHeader } from './SectionHeader';
 
 // Authentic platform logos matching Image 2
 const getCertLogo = (id: string) => {
@@ -85,27 +86,17 @@ export const EducationSection: React.FC = () => {
   };
 
   return (
-    <section id="certificates" className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-slate-200/60">
+    <section id="certificates" className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ================= SECTION HEADER ================= */}
-        <div className="mb-10 sm:mb-14">
-          <div className="flex items-center gap-2 mb-3">
-            <span className="w-5 h-0.5 bg-violet-600 rounded-full" />
-            <span className="text-xs font-bold tracking-widest text-slate-900 uppercase">
-              {EDUCATION_SECTION_DATA.label}
-            </span>
-          </div>
+        <SectionHeader label="Learning" watermark="EDUCATION">
+          <span>{EDUCATION_SECTION_DATA.headingPrefix}</span>
+          <span className="text-violet-600">{EDUCATION_SECTION_DATA.headingHighlight}</span>
+        </SectionHeader>
 
-          <h2 className="text-3xl sm:text-4xl lg:text-[46px] font-bold tracking-tight text-slate-900 leading-[1.12] mb-3 font-serif">
-            <span>{EDUCATION_SECTION_DATA.headingPrefix}</span>
-            <span className="text-violet-600">{EDUCATION_SECTION_DATA.headingHighlight}</span>
-          </h2>
-
-          <p className="text-sm sm:text-base text-slate-600 font-medium max-w-2xl leading-relaxed">
-            {EDUCATION_SECTION_DATA.description}
-          </p>
-        </div>
+        <p className="text-sm sm:text-base text-copy-secondary font-medium max-w-2xl mx-auto text-center leading-relaxed mb-10 sm:mb-14">
+          {EDUCATION_SECTION_DATA.description}
+        </p>
 
         {/* ================= 2-COLUMN BALANCED LAYOUT ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-start">
@@ -124,7 +115,7 @@ export const EducationSection: React.FC = () => {
                 <h3 className="text-xl font-bold text-slate-900 tracking-tight">
                   Education
                 </h3>
-                <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                <p className="text-xs sm:text-sm text-copy-muted font-medium">
                   My academic foundation
                 </p>
               </div>
@@ -145,13 +136,13 @@ export const EducationSection: React.FC = () => {
                   <div key={edu.id} className="relative flex items-start gap-3 sm:gap-4 group">
                     {/* Date Column on the Left of the Timeline */}
                     <div className="w-11 sm:w-12 text-right shrink-0 pt-1 select-none">
-                      <span className="block text-xs font-bold text-slate-600 leading-none">
+                      <span className="block text-xs font-bold text-copy-secondary leading-none">
                         {edu.startYear || '2021'}
                       </span>
-                      <span className="block text-[10px] font-semibold text-slate-400 my-0.5 leading-none">
+                      <span className="block text-[10px] font-semibold text-copy-muted my-0.5 leading-none">
                         -
                       </span>
-                      <span className="block text-xs font-bold text-slate-600 leading-none">
+                      <span className="block text-xs font-bold text-copy-secondary leading-none">
                         {edu.endYear || '2025'}
                       </span>
                     </div>
@@ -162,23 +153,23 @@ export const EducationSection: React.FC = () => {
                     </div>
 
                     {/* Education Card Content */}
-                    <div className="flex-1 min-w-0 bg-white rounded-2xl border border-slate-200/85 p-5 sm:p-6 shadow-[0_2px_12px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_8px_24px_rgba(124,58,237,0.06)] transition-all">
+                    <div className="flex-1 min-w-0 bg-white rounded-2xl border border-stroke/90 p-5 sm:p-6 shadow-[0_2px_12px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_8px_24px_rgba(124,58,237,0.06)] transition-all">
                       <h4 className="text-base sm:text-lg font-bold text-slate-900 font-serif leading-snug group-hover:text-violet-700 transition-colors">
                         {edu.degree}
                       </h4>
 
-                      <p className="text-xs sm:text-sm font-semibold text-slate-600 mt-1.5">
+                      <p className="text-xs sm:text-sm font-semibold text-copy-secondary mt-1.5">
                         {edu.institution}
                       </p>
 
-                      <div className="flex flex-wrap items-center gap-2.5 text-xs text-slate-500 font-medium mt-3">
+                      <div className="flex flex-wrap items-center gap-2.5 text-xs text-copy-muted font-medium mt-3">
                         <span className="inline-flex items-center gap-1.5">
-                          <MapPin className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <MapPin className="w-3.5 h-3.5 text-copy-muted shrink-0" />
                           {edu.location}
                         </span>
                         <span className="text-slate-300">|</span>
                         <span className="inline-flex items-center gap-1.5">
-                          <Calendar className="w-3.5 h-3.5 text-slate-400 shrink-0" />
+                          <Calendar className="w-3.5 h-3.5 text-copy-muted shrink-0" />
                           {edu.period}
                         </span>
                       </div>
@@ -212,7 +203,7 @@ export const EducationSection: React.FC = () => {
                   <h3 className="text-xl font-bold text-slate-900 tracking-tight font-serif">
                     Certifications &amp; Achievements
                   </h3>
-                  <p className="text-xs sm:text-sm text-slate-500 font-medium">
+                  <p className="text-xs sm:text-sm text-copy-muted font-medium">
                     Recognitions that validate my skills and learning journey.
                   </p>
                 </div>
@@ -249,7 +240,7 @@ export const EducationSection: React.FC = () => {
                     <div className="relative z-10 w-2 h-2 rounded-full bg-violet-400 ring-2 ring-[#FAF9F6] shrink-0 group-hover:bg-violet-600 group-hover:scale-125 transition-all" />
 
                     {/* Horizontal Certification Card */}
-                    <div className="flex-1 min-w-0 bg-white rounded-xl sm:rounded-2xl border border-slate-200/80 p-3 sm:p-3.5 flex items-center justify-between gap-3 shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_4px_16px_rgba(124,58,237,0.06)] transition-all">
+                    <div className="flex-1 min-w-0 bg-white rounded-xl sm:rounded-2xl border border-stroke/90 p-3 sm:p-3.5 flex items-center justify-between gap-3 shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_4px_16px_rgba(124,58,237,0.06)] transition-all">
                       <div className="flex items-center gap-3 min-w-0 flex-1">
                         {/* Authentic Platform Logo */}
                         {getCertLogo(cert.id)}
@@ -269,7 +260,7 @@ export const EducationSection: React.FC = () => {
                       </div>
 
                       {/* Issuer Pill Badge */}
-                      <span className="text-[11px] font-semibold text-slate-600 bg-slate-50 border border-slate-200/80 px-2.5 py-1 rounded-full shrink-0 group-hover:bg-violet-50 group-hover:text-violet-700 group-hover:border-violet-100 transition-colors whitespace-nowrap">
+                      <span className="text-[11px] font-semibold text-copy-secondary bg-slate-50 border border-stroke/80 px-2.5 py-1 rounded-full shrink-0 group-hover:bg-violet-50 group-hover:text-violet-700 group-hover:border-violet-100 transition-colors whitespace-nowrap">
                         {cert.issuer}
                       </span>
                     </div>

@@ -20,6 +20,8 @@ import {
   Rocket
 } from 'lucide-react';
 import { PROJECTS_LIST } from '../data/portfolioData';
+import { SectionHeader } from './SectionHeader';
+import { OptimizedImage } from './OptimizedImage';
 
 // Map icons for project brands
 const getProjectIcon = (id: string) => {
@@ -142,7 +144,7 @@ export const ProjectsSection: React.FC = () => {
   return (
     <section
       id="projects"
-      className="relative w-full py-16 sm:py-20 lg:py-28 bg-[#FAF9F6] border-t border-slate-200/60 overflow-hidden select-none"
+      className="relative w-full py-16 sm:py-20 lg:py-28 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
@@ -151,21 +153,6 @@ export const ProjectsSection: React.FC = () => {
         {/* Soft Radial Ambient Backdrop Mesh */}
         <div className="absolute top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[480px] bg-gradient-to-r from-violet-200/50 via-purple-100/35 to-indigo-100/40 blur-3xl rounded-full" />
         
-        {/* Floating Gradient Sphere 1 (Top-Right) */}
-        <motion.div
-          animate={
-            shouldReduceMotion
-              ? {}
-              : {
-                  y: [-12, 14, -12],
-                  x: [-6, 8, -6],
-                  rotate: [0, 45, 0],
-                }
-          }
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-16 right-[14%] w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-gradient-to-tr from-purple-400/35 via-violet-300/25 to-white/40 shadow-[0_8px_30px_rgba(168,85,247,0.18)] blur-[0.5px]"
-        />
-
         {/* Floating Gradient Sphere 2 (Behind Center Card) */}
         <motion.div
           animate={
@@ -197,30 +184,19 @@ export const ProjectsSection: React.FC = () => {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader label="Selected Projects" watermark="PROJECTS">
+          <span>Ideas Built into </span>
+          <span className="text-violet-600">Real Products.</span>
+        </SectionHeader>
         
         {/* ================= MAIN CONTAINER: 2-COLUMN DESKTOP LAYOUT MATCHING IMAGE 1 ================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
           {/* ================= LEFT COLUMN: HERO COPY & VIEW ALL CTA ================= */}
-          <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-6 z-10">
+          <div className="lg:col-span-4 flex flex-col justify-center space-y-6 z-10">
             <div>
-              {/* Section Eyebrow */}
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-5 h-0.5 bg-violet-600 rounded-full" />
-                <span className="text-xs font-bold tracking-widest text-slate-900 uppercase">
-                  SELECTED PROJECTS
-                </span>
-              </div>
-
-              {/* Main Heading matching Image 1 */}
-              <h2 className="text-4xl sm:text-5xl lg:text-[50px] font-black tracking-tight text-slate-900 leading-[1.08] mb-4 font-display">
-                <span>Ideas</span><br />
-                <span>Built into</span><br />
-                <span className="text-violet-600">Real Products.</span>
-              </h2>
-
               {/* Supporting Copy */}
-              <p className="text-sm sm:text-base text-slate-600 font-medium leading-relaxed max-w-sm">
+              <p className="text-sm sm:text-base text-copy-secondary font-medium leading-relaxed max-w-sm">
                 A collection of projects where I applied design, development, and problem-solving to create meaningful digital experiences.
               </p>
             </div>
@@ -246,27 +222,6 @@ export const ProjectsSection: React.FC = () => {
               </a>
             </div>
 
-            {/* Decorative Lower Annotation with Curved SVG Arrow */}
-            <div className="hidden sm:flex items-center gap-2 pt-4">
-              <div className="relative text-violet-600/80 font-serif italic text-sm tracking-wide leading-tight">
-                <span>Design</span><br />
-                <span>Develop</span><br />
-                <span>Solve</span>
-              </div>
-              {/* Curved Hand-Drawn Style Arrow */}
-              <svg
-                className="w-14 h-12 text-violet-500/70 -rotate-12 translate-y-1"
-                viewBox="0 0 60 50"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M 10 40 C 15 15, 30 10, 48 18" />
-                <path d="M 40 12 L 50 18 L 46 28" />
-              </svg>
-            </div>
           </div>
 
           {/* ================= RIGHT COLUMN: 3D CARD STACK & CAROUSEL (Requirement 2 & 4) ================= */}
@@ -364,18 +319,19 @@ export const ProjectsSection: React.FC = () => {
                             className={`group relative rounded-[26px] bg-white border transition-all duration-300 overflow-hidden flex flex-col justify-between ${
                               isCenter
                                 ? 'border-slate-300/80 shadow-[0_25px_60px_-15px_rgba(15,23,42,0.18),0_10px_30px_-10px_rgba(124,58,237,0.22)] ring-1 ring-slate-900/5'
-                                : 'border-slate-200 shadow-md hover:border-slate-300'
+                                : 'border-stroke shadow-md hover:border-slate-300'
                             }`}
                           >
                             {/* Card Top: Visual Media Container */}
                             <div className="relative w-full aspect-[16/10.5] overflow-hidden bg-slate-900">
-                              <img
+                              <OptimizedImage
                                 src={project.image}
+                                sizes="(min-width: 768px) 390px, (min-width: 640px) 350px, 285px"
                                 alt={project.title}
                                 className={`w-full h-full object-cover object-top transition-transform duration-500 ease-out ${
                                   isCenter ? 'group-hover:scale-105' : 'scale-100'
                                 }`}
-                                loading="eager"
+                                loading="lazy"
                               />
 
                               {/* Featured Project Badge (Only on center card or if active) */}
@@ -426,7 +382,7 @@ export const ProjectsSection: React.FC = () => {
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={(e) => e.stopPropagation()}
-                                    className="p-1 rounded-md text-slate-500 hover:text-violet-700 hover:bg-slate-100 transition-colors"
+                                    className="p-1 rounded-md text-copy-muted hover:text-violet-700 hover:bg-slate-100 transition-colors"
                                     aria-label="Visit external project site"
                                   >
                                     <ArrowUpRight className="w-4 h-4" />
@@ -439,7 +395,7 @@ export const ProjectsSection: React.FC = () => {
                                 </h3>
 
                                 {/* Project Description */}
-                                <p className="text-xs sm:text-[13px] text-slate-600 font-medium leading-relaxed line-clamp-2 mb-3.5">
+                                <p className="text-xs sm:text-[13px] text-copy-secondary font-medium leading-relaxed line-clamp-2 mb-3.5">
                                   {project.description}
                                 </p>
                               </div>
@@ -449,7 +405,7 @@ export const ProjectsSection: React.FC = () => {
                                 {project.tags.map((tag) => (
                                   <span
                                     key={tag}
-                                    className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-slate-200/80 group-hover:bg-violet-50 group-hover:text-violet-800 transition-colors"
+                                    className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-slate-100 text-slate-700 border border-stroke/80 group-hover:bg-violet-50 group-hover:text-violet-800 transition-colors"
                                   >
                                     {tag}
                                   </span>

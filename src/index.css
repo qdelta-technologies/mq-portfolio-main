@@ -4,14 +4,24 @@
   --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-handwriting: 'Caveat', cursive;
   --font-display: 'Space Grotesk', 'Plus Jakarta Sans', sans-serif;
+  --font-wordmark: 'Outfit', 'Plus Jakarta Sans', sans-serif;
   --font-serif: 'Playfair Display', Georgia, serif;
 
   --color-canvas: #FAF9F6;
   --color-canvas-subtle: #F5F3EF;
-  --color-brand-violet: #7C3AED;
-  --color-brand-violet-hover: #6D28D9;
+  --color-brand-violet: #7631E5;
+  --color-brand-violet-hover: #6523CE;
   --color-brand-violet-light: #EDE9FE;
   --color-brand-violet-soft: #F5F3FF;
+
+  /* Slightly stronger contrast, without changing the light/dark surface palette. */
+  --color-violet-600: var(--color-brand-violet);
+  --color-violet-700: var(--color-brand-violet-hover);
+  --color-copy-secondary: #3D4B60;
+  --color-copy-muted: #526176;
+  --color-copy-on-dark: #B3BFD0;
+  --color-stroke: #CBD2DC;
+  --color-stroke-on-dark: #3C485F;
 }
 
 :root {
@@ -23,6 +33,164 @@ body {
   background-color: #FAF9F6;
   color: #0F172A;
   min-height: 100vh;
+}
+
+/* Phone: a natural reading flow without the desktop statistics. */
+.hero-section {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-areas: 'heading' 'intro' 'portrait';
+  gap: 20px;
+  align-items: start;
+  padding: 88px 16px 0;
+}
+
+.hero-heading {
+  grid-area: heading;
+  justify-self: center;
+  width: 100%;
+  max-width: 896px;
+  min-width: 0;
+}
+
+.hero-intro {
+  grid-area: intro;
+  justify-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 440px;
+  min-width: 0;
+  text-align: center;
+}
+
+.site-desktop-nav {
+  display: none;
+}
+
+.hero-metrics {
+  display: none;
+  grid-area: metrics;
+  justify-self: center;
+  width: 100%;
+  max-width: 480px;
+  min-width: 0;
+}
+
+.hero-portrait {
+  grid-area: portrait;
+  align-self: end;
+  justify-self: center;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  width: min(280px, 100%);
+  min-width: 0;
+}
+
+.hero-metric-glass {
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(52, 52, 52, 0.24);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 4px 14px -8px rgba(46, 31, 79, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+.hero-metric-glass::before {
+  content: '';
+  display: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 12% 0%, rgba(255, 255, 255, 0.75), transparent 55%);
+  z-index: -1;
+}
+
+/* Tablet: give the portrait a real column, rather than stacking a tall hero. */
+@media (min-width: 640px) {
+  .hero-section {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas: 'heading heading' 'portrait intro';
+    gap: 24px;
+    padding: 96px 24px 0;
+  }
+
+  .hero-intro {
+    align-self: center;
+    align-items: start;
+    gap: 20px;
+    padding-block: 24px;
+    text-align: left;
+  }
+
+  .hero-portrait {
+    width: 100%;
+    max-width: 410px;
+  }
+}
+
+/* Tablets (including keyboard-equipped ones) keep the roomier two-column hero. */
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  .site-desktop-nav {
+    display: flex;
+  }
+
+  .site-menu-toggle,
+  .site-mobile-nav {
+    display: none;
+  }
+
+  .hero-section {
+    grid-template-columns: minmax(0, 1fr) clamp(300px, 34vw, 480px) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-areas: 'heading heading heading' 'intro portrait metrics';
+    row-gap: 32px;
+    min-height: max(680px, calc(100svh - 56px));
+    padding: 112px clamp(24px, 4.44vw, 80px) 0;
+  }
+
+  .hero-intro,
+  .hero-metrics {
+    align-self: center;
+    transform: translateY(calc(-1 * clamp(24px, 6vh, 64px)));
+  }
+
+  .hero-intro {
+    justify-self: start;
+    max-width: 348px;
+    gap: 20px;
+    padding-block: 0;
+  }
+
+  .hero-metrics {
+    display: block;
+    justify-self: end;
+    max-width: 300px;
+    padding-bottom: 0;
+  }
+
+  .hero-portrait {
+    max-width: 480px;
+  }
+
+  .hero-metric-glass {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.84), rgba(255, 255, 255, 0.48) 52%, rgba(237, 233, 254, 0.58));
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    box-shadow:
+      0 0 0 1px rgba(118, 49, 229, 0.07),
+      0 4px 0 -2px rgba(199, 190, 216, 0.45),
+      0 14px 30px -18px rgba(46, 31, 79, 0.32),
+      inset 0 1px 1px rgba(255, 255, 255, 0.95),
+      inset 0 -1px 2px rgba(111, 86, 154, 0.1);
+  }
+
+  .hero-metric-glass::before {
+    display: block;
+  }
 }
 
 /* Subtle custom scrollbar */
@@ -78,4 +246,3 @@ body {
     animation: none;
   }
 }
-

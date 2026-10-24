@@ -1,0 +1,342 @@
+{
+  "/images/qais-portrait-hero.png": {
+    "width": 1313,
+    "height": 1198,
+    "srcSet": "/images/optimized/qais-portrait-hero-320.webp 320w, /images/optimized/qais-portrait-hero-480.webp 480w, /images/optimized/qais-portrait-hero-560.webp 560w, /images/optimized/qais-portrait-hero-840.webp 840w, /images/optimized/qais-portrait-hero-960.webp 960w, /images/optimized/qais-portrait-hero-1313.webp 1313w",
+    "variants": [
+      {
+        "src": "/images/optimized/qais-portrait-hero-320.webp",
+        "width": 320,
+        "height": 292,
+        "bytes": 91190
+      },
+      {
+        "src": "/images/optimized/qais-portrait-hero-480.webp",
+        "width": 480,
+        "height": 438,
+        "bytes": 189376
+      },
+      {
+        "src": "/images/optimized/qais-portrait-hero-560.webp",
+        "width": 560,
+        "height": 511,
+        "bytes": 254436
+      },
+      {
+        "src": "/images/optimized/qais-portrait-hero-840.webp",
+        "width": 840,
+        "height": 766,
+        "bytes": 565660
+      },
+      {
+        "src": "/images/optimized/qais-portrait-hero-960.webp",
+        "width": 960,
+        "height": 876,
+        "bytes": 748936
+      },
+      {
+        "src": "/images/optimized/qais-portrait-hero-1313.webp",
+        "width": 1313,
+        "height": 1198,
+        "bytes": 1309500
+      }
+    ]
+  },
+  "/images/qais-portrait.png": {
+    "width": 144,
+    "height": 144,
+    "srcSet": "/images/optimized/qais-portrait-48.webp 48w, /images/optimized/qais-portrait-96.webp 96w, /images/optimized/qais-portrait-144.webp 144w",
+    "variants": [
+      {
+        "src": "/images/optimized/qais-portrait-48.webp",
+        "width": 48,
+        "height": 48,
+        "bytes": 3200
+      },
+      {
+        "src": "/images/optimized/qais-portrait-96.webp",
+        "width": 96,
+        "height": 96,
+        "bytes": 10570
+      },
+      {
+        "src": "/images/optimized/qais-portrait-144.webp",
+        "width": 144,
+        "height": 144,
+        "bytes": 21076
+      }
+    ]
+  },
+  "/images/mq-logo.png": {
+    "width": 559,
+    "height": 200,
+    "srcSet": "/images/optimized/mq-logo-168.webp 168w, /images/optimized/mq-logo-280.webp 280w, /images/optimized/mq-logo-559.webp 559w",
+    "variants": [
+      {
+        "src": "/images/optimized/mq-logo-168.webp",
+        "width": 168,
+        "height": 60,
+        "bytes": 3222
+      },
+      {
+        "src": "/images/optimized/mq-logo-280.webp",
+        "width": 280,
+        "height": 100,
+        "bytes": 4946
+      },
+      {
+        "src": "/images/optimized/mq-logo-559.webp",
+        "width": 559,
+        "height": 200,
+        "bytes": 5534
+      }
+    ]
+  },
+  "/images/mq-favicon.png": {
+    "width": 256,
+    "height": 256,
+    "srcSet": "/images/optimized/mq-favicon-64.webp 64w, /images/optimized/mq-favicon-128.webp 128w, /images/optimized/mq-favicon-256.webp 256w",
+    "variants": [
+      {
+        "src": "/images/optimized/mq-favicon-64.webp",
+        "width": 64,
+        "height": 64,
+        "bytes": 1456
+      },
+      {
+        "src": "/images/optimized/mq-favicon-128.webp",
+        "width": 128,
+        "height": 128,
+        "bytes": 2726
+      },
+      {
+        "src": "/images/optimized/mq-favicon-256.webp",
+        "width": 256,
+        "height": 256,
+        "bytes": 4574
+      }
+    ]
+  },
+  "/images/projects/ai-sentiment-analyser.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/ai-sentiment-analyser-320.webp 320w, /images/optimized/ai-sentiment-analyser-400.webp 400w, /images/optimized/ai-sentiment-analyser-640.webp 640w, /images/optimized/ai-sentiment-analyser-800.webp 800w, /images/optimized/ai-sentiment-analyser-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/ai-sentiment-analyser-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 84720
+      },
+      {
+        "src": "/images/optimized/ai-sentiment-analyser-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 127622
+      },
+      {
+        "src": "/images/optimized/ai-sentiment-analyser-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 312326
+      },
+      {
+        "src": "/images/optimized/ai-sentiment-analyser-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 465508
+      },
+      {
+        "src": "/images/optimized/ai-sentiment-analyser-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 526686
+      }
+    ]
+  },
+  "/images/projects/flowdesk.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/flowdesk-320.webp 320w, /images/optimized/flowdesk-400.webp 400w, /images/optimized/flowdesk-640.webp 640w, /images/optimized/flowdesk-800.webp 800w, /images/optimized/flowdesk-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/flowdesk-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 70650
+      },
+      {
+        "src": "/images/optimized/flowdesk-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 107192
+      },
+      {
+        "src": "/images/optimized/flowdesk-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 264520
+      },
+      {
+        "src": "/images/optimized/flowdesk-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 388452
+      },
+      {
+        "src": "/images/optimized/flowdesk-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 397482
+      }
+    ]
+  },
+  "/images/projects/fresh-laundry.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/fresh-laundry-320.webp 320w, /images/optimized/fresh-laundry-400.webp 400w, /images/optimized/fresh-laundry-640.webp 640w, /images/optimized/fresh-laundry-800.webp 800w, /images/optimized/fresh-laundry-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/fresh-laundry-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 59514
+      },
+      {
+        "src": "/images/optimized/fresh-laundry-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 90594
+      },
+      {
+        "src": "/images/optimized/fresh-laundry-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 228080
+      },
+      {
+        "src": "/images/optimized/fresh-laundry-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 329446
+      },
+      {
+        "src": "/images/optimized/fresh-laundry-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 335474
+      }
+    ]
+  },
+  "/images/projects/global-safety-academy.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/global-safety-academy-320.webp 320w, /images/optimized/global-safety-academy-400.webp 400w, /images/optimized/global-safety-academy-640.webp 640w, /images/optimized/global-safety-academy-800.webp 800w, /images/optimized/global-safety-academy-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/global-safety-academy-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 75398
+      },
+      {
+        "src": "/images/optimized/global-safety-academy-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 113394
+      },
+      {
+        "src": "/images/optimized/global-safety-academy-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 273596
+      },
+      {
+        "src": "/images/optimized/global-safety-academy-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 404958
+      },
+      {
+        "src": "/images/optimized/global-safety-academy-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 438288
+      }
+    ]
+  },
+  "/images/projects/pretty-good-pdf.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/pretty-good-pdf-320.webp 320w, /images/optimized/pretty-good-pdf-400.webp 400w, /images/optimized/pretty-good-pdf-640.webp 640w, /images/optimized/pretty-good-pdf-800.webp 800w, /images/optimized/pretty-good-pdf-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/pretty-good-pdf-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 55864
+      },
+      {
+        "src": "/images/optimized/pretty-good-pdf-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 85490
+      },
+      {
+        "src": "/images/optimized/pretty-good-pdf-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 217168
+      },
+      {
+        "src": "/images/optimized/pretty-good-pdf-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 318282
+      },
+      {
+        "src": "/images/optimized/pretty-good-pdf-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 310888
+      }
+    ]
+  },
+  "/images/projects/qdelta-technologies.jpg": {
+    "width": 896,
+    "height": 588,
+    "srcSet": "/images/optimized/qdelta-technologies-320.webp 320w, /images/optimized/qdelta-technologies-400.webp 400w, /images/optimized/qdelta-technologies-640.webp 640w, /images/optimized/qdelta-technologies-800.webp 800w, /images/optimized/qdelta-technologies-896.webp 896w",
+    "variants": [
+      {
+        "src": "/images/optimized/qdelta-technologies-320.webp",
+        "width": 320,
+        "height": 210,
+        "bytes": 88906
+      },
+      {
+        "src": "/images/optimized/qdelta-technologies-400.webp",
+        "width": 400,
+        "height": 262,
+        "bytes": 133394
+      },
+      {
+        "src": "/images/optimized/qdelta-technologies-640.webp",
+        "width": 640,
+        "height": 420,
+        "bytes": 325208
+      },
+      {
+        "src": "/images/optimized/qdelta-technologies-800.webp",
+        "width": 800,
+        "height": 525,
+        "bytes": 489742
+      },
+      {
+        "src": "/images/optimized/qdelta-technologies-896.webp",
+        "width": 896,
+        "height": 588,
+        "bytes": 556538
+      }
+    ]
+  }
+}

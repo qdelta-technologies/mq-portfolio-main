@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUp, Globe, Mail } from 'lucide-react';
 import { GithubIcon, LinkedinIcon } from './SocialIcons';
 import { PERSONAL_INFO, NAV_ITEMS, SOCIAL_LINKS } from '../data/portfolioData';
+import { BrandWordmark } from './BrandWordmark';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -35,16 +36,7 @@ export const Footer: React.FC = () => {
           
           {/* Brand Identity / Left */}
           <a href="#" className="flex items-center group" aria-label="Mohammed Qais — Back to Top">
-            <img
-              src="/images/mq-logo.png"
-              alt="Mohammed Qais Logo"
-              className="h-6 sm:h-7 md:h-8 w-auto object-contain transition-transform duration-200 group-hover:scale-105 select-none"
-              style={{
-                imageRendering: '-webkit-optimize-contrast',
-                transform: 'translateZ(0)',
-                backfaceVisibility: 'hidden',
-              }}
-            />
+            <BrandWordmark />
           </a>
 
           {/* Section Navigation Links / Center */}
@@ -88,9 +80,9 @@ export const Footer: React.FC = () => {
         </div>
 
         {/* Copyright & Subtext Row */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-600 font-medium gap-3">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-copy-secondary font-medium gap-3">
           <p>© {currentYear} {PERSONAL_INFO.name}. All rights reserved.</p>
-          <p className="flex items-center gap-1.5 text-slate-600">
+          <p className="flex items-center gap-1.5 text-copy-secondary">
             <span>Crafted with precision & modern web standards</span>
           </p>
         </div>

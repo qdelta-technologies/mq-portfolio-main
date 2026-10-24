@@ -96,7 +96,7 @@ export const ExpertiseTicker: React.FC = () => {
       <div className="flex items-center space-x-8 sm:space-x-10 whitespace-nowrap animate-marquee">
         {marqueeItems.map((item, index) => (
           <div key={`${item}-${index}`} className="flex items-center space-x-8 sm:space-x-10 shrink-0">
-            <span className="text-xs sm:text-[13px] font-semibold tracking-wider text-slate-200 uppercase">
+            <span className="text-xs sm:text-[13px] font-semibold tracking-wider text-slate-100 uppercase">
               {item}
             </span>
             <Sparkle3D />

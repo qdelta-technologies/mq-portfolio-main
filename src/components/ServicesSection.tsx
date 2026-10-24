@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { SERVICES_SECTION_DATA, SERVICES_LIST, ServiceItem } from '../data/portfolioData';
+import { SectionHeader } from './SectionHeader';
 
 // Custom icons matching the reference image
 const ServiceIcon: React.FC<{ id: string }> = ({ id }) => {
@@ -152,31 +153,10 @@ export const ServicesSection: React.FC = () => {
     <section id="services" className="relative w-full py-20 sm:py-24 lg:py-28 bg-[#FAF9F6] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* ================= SECTION HEADER WITH WATERMARK ================= */}
-        <div className="relative flex flex-col items-center justify-center text-center mb-12 sm:mb-16 select-none">
-          {/* Faint Big Background Watermark Text "SERVICES" matching reference image */}
-          <span
-            className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 text-[78px] sm:text-[114px] md:text-[144px] lg:text-[170px] font-black tracking-[-0.01em] text-[#ECEAF6] select-none pointer-events-none uppercase font-['Outfit','Plus_Jakarta_Sans',sans-serif] leading-none whitespace-nowrap z-0"
-            aria-hidden="true"
-          >
-            {SERVICES_SECTION_DATA.watermark || 'SERVICES'}
-          </span>
-
-          {/* Eyebrow with Two Purple Square Dots */}
-          <div className="relative z-10 flex items-center justify-center gap-2 mb-2.5">
-            <span className="w-1.5 h-1.5 bg-violet-600 rounded-[2px]" />
-            <span className="text-xs sm:text-sm font-semibold text-slate-800 tracking-wide">
-              {SERVICES_SECTION_DATA.label}
-            </span>
-            <span className="w-1.5 h-1.5 bg-violet-600 rounded-[2px]" />
-          </div>
-
-          {/* Section Heading */}
-          <h2 className="relative z-10 text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-slate-900 leading-[1.12] font-display">
-            <span className="text-violet-600">{SERVICES_SECTION_DATA.headingHighlight} </span>
-            <span>{SERVICES_SECTION_DATA.headingSuffix}</span>
-          </h2>
-        </div>
+        <SectionHeader label={SERVICES_SECTION_DATA.label} watermark={SERVICES_SECTION_DATA.watermark}>
+          <span className="text-violet-600">{SERVICES_SECTION_DATA.headingHighlight} </span>
+          <span>{SERVICES_SECTION_DATA.headingSuffix}</span>
+        </SectionHeader>
 
         {/* ================= 6-CARD SERVICES GRID (2 ROWS X 3 COLS) ================= */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">

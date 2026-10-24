@@ -10,6 +10,7 @@ import {
   ArrowRight, 
   ChevronRight
 } from 'lucide-react';
+import { SectionHeader } from './SectionHeader';
 
 /* ================= TECH LOGO INLINE SVGS ================= */
 const TechLogos: Record<string, React.FC<{ className?: string }>> = {
@@ -200,31 +201,21 @@ export const SkillsSection: React.FC = () => {
     <section
       id="skills"
       ref={containerRef}
-      className="relative w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-slate-200/60 overflow-hidden"
+      className="relative w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden"
     >
       {/* Placed cleanly on section main background without enclosing card wrappers */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader label="Skills & Tools" watermark="SKILLS">
+          <span>Tools I Use to Build, Design and </span>
+          <span className="text-violet-600">Innovate.</span>
+        </SectionHeader>
         
         {/* Main 3-Column Layout: Left Narrative, Center Orbit, Right Category Stack */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-8 items-center">
           
           {/* ================= 1. LEFT COLUMN: HEADLINE, DESCRIPTION & STATS ================= */}
-          <div className="lg:col-span-4 flex flex-col justify-between h-full space-y-6">
+          <div className="lg:col-span-4 flex flex-col justify-center space-y-6">
             <div>
-              {/* Eyebrow */}
-              <div className="flex items-center gap-2 mb-3">
-                <span className="w-4 h-0.5 bg-violet-600 rounded-full" />
-                <span className="text-xs font-bold tracking-widest text-slate-900 uppercase">
-                  SKILLS & TOOLS
-                </span>
-              </div>
-
-              {/* Main Heading */}
-              <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-slate-900 leading-[1.14] mb-3.5 font-display">
-                <span>Tools I Use to Build, Design and </span>
-                <span className="text-violet-600">Innovate.</span>
-              </h2>
-
               {/* Description */}
               <p className="text-sm sm:text-base text-slate-700 font-medium leading-relaxed max-w-sm">
                 A blend of technical, creative, and strategic skills that help me design, develop, and deliver meaningful digital experiences.
@@ -238,7 +229,7 @@ export const SkillsSection: React.FC = () => {
                 <span className="text-lg font-black text-violet-700 font-mono">6+</span>
                 <div className="flex flex-col">
                   <span className="text-[11px] font-bold text-slate-900 leading-tight">Skill Areas</span>
-                  <span className="text-[9.5px] font-medium text-slate-600">Cross-domain</span>
+                  <span className="text-[9.5px] font-medium text-copy-secondary">Cross-domain</span>
                 </div>
               </div>
 
@@ -247,7 +238,7 @@ export const SkillsSection: React.FC = () => {
                 <span className="text-lg font-black text-violet-700 font-mono">∞</span>
                 <div className="flex flex-col">
                   <span className="text-[11px] font-bold text-slate-900 leading-tight">Always Learning</span>
-                  <span className="text-[9.5px] font-medium text-slate-600">Daily R&D</span>
+                  <span className="text-[9.5px] font-medium text-copy-secondary">Daily R&D</span>
                 </div>
               </div>
 
@@ -366,7 +357,7 @@ export const SkillsSection: React.FC = () => {
                       className={`relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border transition-all duration-300 shadow-md ${
                         isCatActive || isHovered
                           ? 'border-violet-500 shadow-[0_8px_25px_-5px_rgba(124,58,237,0.45)] ring-2 ring-violet-400/40 z-40'
-                          : 'border-slate-200/90 hover:border-violet-400 hover:shadow-lg'
+                          : 'border-stroke/90 hover:border-violet-400 hover:shadow-lg'
                       }`}
                       title={item.name}
                     >
@@ -392,7 +383,7 @@ export const SkillsSection: React.FC = () => {
                   className={`rounded-2xl border transition-all duration-200 p-3 sm:p-3.5 cursor-pointer select-none ${
                     isActive
                       ? 'bg-white border-violet-500 shadow-[0_6px_25px_-8px_rgba(124,58,237,0.25)] ring-1 ring-violet-500/30'
-                      : 'bg-white/80 border-slate-200 hover:border-slate-300 hover:bg-white shadow-xs'
+                      : 'bg-white/90 border-stroke hover:border-slate-300 hover:bg-white shadow-xs'
                   }`}
                 >
                   {/* Category Title Row */}
@@ -425,14 +416,14 @@ export const SkillsSection: React.FC = () => {
                         className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border transition-colors ${
                           isActive
                             ? 'bg-violet-50 text-violet-700 border-violet-200'
-                            : 'bg-slate-100 text-slate-600 border-slate-200'
+                            : 'bg-slate-100 text-copy-secondary border-stroke'
                         }`}
                       >
                         {cat.toolCount}
                       </span>
                       <ChevronRight
                         className={`w-3.5 h-3.5 transition-transform duration-200 ${
-                          isActive ? 'rotate-90 text-violet-700' : 'text-slate-400'
+                          isActive ? 'rotate-90 text-violet-700' : 'text-copy-muted'
                         }`}
                       />
                     </div>
@@ -448,11 +439,11 @@ export const SkillsSection: React.FC = () => {
                         transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
-                        <div className="pt-2.5 mt-2.5 border-t border-slate-100 flex flex-wrap gap-1.5">
+                        <div className="pt-2.5 mt-2.5 border-t border-stroke/75 flex flex-wrap gap-1.5">
                           {cat.tools.map((tool) => (
                             <span
                               key={tool}
-                              className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 border border-slate-200/80 hover:bg-violet-50 hover:text-violet-900 hover:border-violet-200 transition-colors"
+                              className="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-100 text-slate-800 border border-stroke/80 hover:bg-violet-50 hover:text-violet-900 hover:border-violet-200 transition-colors"
                             >
                               {tool}
                             </span>

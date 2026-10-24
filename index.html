@@ -2,8 +2,20 @@
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/images/mq-favicon.png" />
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32 48x48 64x64" href="/images/portrait-favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/images/portrait-favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="64x64" href="/images/portrait-favicon-64.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Match the hero picture's responsive source so it is discovered before React loads. -->
+    <link
+      rel="preload"
+      as="image"
+      type="image/webp"
+      href="/images/optimized/qais-portrait-hero-960.webp"
+      imagesrcset="/images/optimized/qais-portrait-hero-320.webp 320w, /images/optimized/qais-portrait-hero-480.webp 480w, /images/optimized/qais-portrait-hero-560.webp 560w, /images/optimized/qais-portrait-hero-840.webp 840w, /images/optimized/qais-portrait-hero-960.webp 960w, /images/optimized/qais-portrait-hero-1313.webp 1313w"
+      imagesizes="(min-width: 1412px) and (hover: hover) and (pointer: fine) 480px, (min-width: 1280px) and (hover: hover) and (pointer: fine) 34vw, (min-width: 892px) 410px, (min-width: 640px) calc((100vw - 72px) / 2), 280px"
+      fetchpriority="high"
+    />
     <title>Mohammed Qaisuddin — AI Generalist & Founder of QDelta</title>
     <meta name="description" content="Portfolio of Mohammed Qaisuddin, AI Generalist and Founder of QDelta Technologies. Building practical AI automations, web applications, and modern digital experiences." />
     <!-- Google Fonts: Plus Jakarta Sans, Outfit, Playfair Display & Caveat -->

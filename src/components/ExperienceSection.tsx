@@ -10,6 +10,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { EXPERIENCE_SECTION_DATA, EXPERIENCE_LIST, ExperienceItem } from '../data/portfolioData';
+import { SectionHeader } from './SectionHeader';
 
 // Map icon for each experience role
 const getExperienceIcon = (id: string, isCurrent: boolean) => {
@@ -53,8 +54,15 @@ export const ExperienceSection: React.FC = () => {
     <section
       id="experience"
       ref={containerRef}
-      className="relative w-full py-10 sm:py-12 lg:py-16 bg-[#FAF9F6] border-t border-slate-200/60 overflow-hidden"
+      className="relative w-full py-10 sm:py-12 lg:py-16 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden"
     >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <SectionHeader label="My Journey" watermark="EXPERIENCE">
+          <span>{EXPERIENCE_SECTION_DATA.headingPrefix}</span>
+          <span className="text-violet-600">{EXPERIENCE_SECTION_DATA.headingHighlight}</span>
+        </SectionHeader>
+      </div>
+
       {/* Extended width dragged near screen edges */}
       <div className="w-[calc(100%-1.25rem)] sm:w-[calc(100%-2rem)] lg:w-[calc(100%-3rem)] max-w-[1680px] mx-auto">
         
@@ -80,28 +88,14 @@ export const ExperienceSection: React.FC = () => {
               className="lg:w-[260px] xl:w-[290px] flex flex-col justify-between shrink-0 py-1"
             >
               <div>
-                {/* Eyebrow with Violet Dash */}
-                <div className="flex items-center gap-2 mb-2">
-                  <span className="w-4.5 h-0.5 bg-violet-500 rounded-full" />
-                  <span className="text-xs font-bold tracking-widest text-slate-300 uppercase">
-                    {EXPERIENCE_SECTION_DATA.label}
-                  </span>
-                </div>
-
-                {/* Section Main Heading */}
-                <h2 className="text-3xl sm:text-4xl lg:text-[38px] font-black text-white tracking-tight leading-[1.1] mb-2.5 font-display">
-                  <span>{EXPERIENCE_SECTION_DATA.headingPrefix}</span>
-                  <span className="text-violet-400">{EXPERIENCE_SECTION_DATA.headingHighlight}</span>
-                </h2>
-
                 {/* Subtitle / Description */}
-                <p className="text-xs sm:text-sm text-slate-400 font-normal leading-relaxed max-w-[270px]">
+                <p className="text-xs sm:text-sm text-copy-on-dark font-normal leading-relaxed max-w-[270px]">
                   {EXPERIENCE_SECTION_DATA.description}
                 </p>
               </div>
 
               {/* Decorative Lower Flourish / Impact Badge */}
-              <div className="mt-6 lg:mt-8 pt-4 border-t border-slate-800/80">
+              <div className="mt-6 lg:mt-8 pt-4 border-t border-stroke-on-dark/80">
                 <div className="relative mb-2 flex items-center gap-2">
                   <svg
                     className="w-20 h-5 text-violet-500/40"
@@ -112,14 +106,14 @@ export const ExperienceSection: React.FC = () => {
                   >
                     <path d="M 0,18 C 25,2 35,22 60,6 C 75,-4 85,20 100,12" strokeLinecap="round" />
                   </svg>
-                  <span className="text-[10px] font-mono tracking-widest text-slate-400 uppercase font-semibold">
+                  <span className="text-[10px] font-mono tracking-widest text-copy-on-dark uppercase font-semibold">
                     Timeline
                   </span>
                 </div>
 
                 <div className="flex items-baseline gap-2">
                   <span className="text-xl font-black text-white tracking-tight">Focus</span>
-                  <p className="text-[11px] text-slate-400 font-mono tracking-wider uppercase leading-tight">
+                  <p className="text-[11px] text-copy-on-dark font-mono tracking-wider uppercase leading-tight">
                     Roles • Purpose • Impact
                   </p>
                 </div>
@@ -190,7 +184,7 @@ export const ExperienceSection: React.FC = () => {
                         ? 'bg-[#11172B]/95 border-violet-500/50 shadow-[0_8px_30px_-8px_rgba(124,58,237,0.32)]'
                         : isSelected
                         ? 'bg-[#111628]/95 border-slate-700 shadow-[0_6px_20px_-6px_rgba(0,0,0,0.5)]'
-                        : 'bg-[#0E1322]/90 border-slate-800/80 hover:bg-[#12182B] hover:border-slate-700/80'
+                        : 'bg-[#0E1322]/90 border-stroke-on-dark/80 hover:bg-[#12182B] hover:border-slate-600/80'
                     }`}
                   >
                     {/* Inner Content Layout: Desktop Multi-Column Row & Mobile Adaptive Stacking */}
@@ -215,7 +209,7 @@ export const ExperienceSection: React.FC = () => {
                           <p className="text-xs sm:text-[12.5px] font-bold text-white tracking-tight leading-tight">
                             {item.period}
                           </p>
-                          <p className="text-[11px] font-medium text-slate-400 mt-0.5">
+                          <p className="text-[11px] font-medium text-copy-on-dark mt-0.5">
                             {item.location || 'Remote'}
                           </p>
                         </div>
@@ -242,7 +236,7 @@ export const ExperienceSection: React.FC = () => {
                           >
                             {item.role}
                           </h3>
-                          <p className="text-[11.5px] text-slate-400 font-medium mt-0.5 line-clamp-1">
+                          <p className="text-[11.5px] text-copy-on-dark font-medium mt-0.5 line-clamp-1">
                             {item.organization}
                           </p>
                         </div>
@@ -251,7 +245,7 @@ export const ExperienceSection: React.FC = () => {
                       {/* Right Block: Description & Action Arrow */}
                       <div className="flex items-center justify-between xl:justify-end gap-3.5 flex-1">
                         {/* Description */}
-                        <p className="text-xs sm:text-[12.5px] text-slate-400 font-normal leading-relaxed max-w-xl line-clamp-1 xl:line-clamp-2">
+                        <p className="text-xs sm:text-[12.5px] text-copy-on-dark font-normal leading-relaxed max-w-xl line-clamp-1 xl:line-clamp-2">
                           {item.description}
                         </p>
 
@@ -260,7 +254,7 @@ export const ExperienceSection: React.FC = () => {
                           className={`w-7.5 h-7.5 sm:w-8 sm:h-8 rounded-full flex items-center justify-center border transition-all duration-200 shrink-0 ${
                             isCurrent
                               ? 'bg-violet-600 border-violet-500 text-white shadow-xs'
-                              : 'bg-slate-800/80 border-slate-700/70 text-slate-400 group-hover:bg-violet-600 group-hover:border-violet-500 group-hover:text-white'
+                              : 'bg-slate-800/80 border-stroke-on-dark text-copy-on-dark group-hover:bg-violet-600 group-hover:border-violet-500 group-hover:text-white'
                           }`}
                           aria-label={`View details for ${item.role}`}
                         >
