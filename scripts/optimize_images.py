@@ -25,6 +25,7 @@ assets = [
     (PUBLIC / "images/qais-portrait.png", [48, 96, 144]),
     (PUBLIC / "images/mq-logo.png", [168, 280, 559]),
     (PUBLIC / "images/mq-favicon.png", [64, 128, 256]),
+    (PUBLIC / "images/projects/wts-nova.png", [320, 400, 640, 800, 896]),
     *[(path, [320, 400, 640, 800, 896]) for path in sorted((PUBLIC / "images/projects").glob("*.jpg"))],
 ]
 

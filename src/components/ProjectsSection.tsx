@@ -4,10 +4,9 @@ import {
   useMotionValue, 
   useSpring, 
   useTransform, 
-  useReducedMotion 
+  useInView
 } from 'framer-motion';
 import { 
-  ArrowRight, 
   ArrowUpRight, 
   ChevronLeft, 
   ChevronRight, 
@@ -17,15 +16,20 @@ import {
   Brain,
   Palette,
   FileText,
-  Rocket
+  Rocket,
+  Megaphone
 } from 'lucide-react';
 import { PROJECTS_LIST } from '../data/portfolioData';
 import { SectionHeader } from './SectionHeader';
 import { OptimizedImage } from './OptimizedImage';
+import { AmbientSection } from './AmbientSection';
+import { useSiteMotion } from './SiteMotion';
 
 // Map icons for project brands
 const getProjectIcon = (id: string) => {
   switch (id) {
+    case 'wts-nova':
+      return <Megaphone className="w-4 h-4 text-sky-600" />;
     case 'flowdesk':
       return <Sparkles className="w-4 h-4 text-violet-600" />;
     case 'gsa':
@@ -52,7 +56,7 @@ interface TiltCardProps {
 }
 
 const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '', onClick }) => {
-  const shouldReduceMotion = useReducedMotion();
+  const { reducedMotion: shouldReduceMotion, ambientMotion } = useSiteMotion();
   const cardRef = useRef<HTMLDivElement>(null);
 
   const x = useMotionValue(0);
@@ -67,7 +71,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '',
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-6deg', '6deg']);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!isActive || shouldReduceMotion) return;
+    if (!isActive || shouldReduceMotion || !ambientMotion) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const width = rect.width;
     const height = rect.height;
@@ -95,7 +99,7 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '',
         rotateY: isActive ? rotateY : 0,
         transformStyle: 'preserve-3d',
       }}
-      whileHover={isActive ? { scale: 1.025 } : {}}
+      whileHover={isActive && ambientMotion ? { scale: 1.025 } : {}}
       transition={{ type: 'spring', stiffness: 350, damping: 25 }}
       className={`relative w-full h-full transition-shadow duration-300 ${className}`}
     >
@@ -105,11 +109,12 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '',
 };
 
 export const ProjectsSection: React.FC = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const { reducedMotion: shouldReduceMotion, pageVisible } = useSiteMotion();
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const carouselInView = useInView(carouselRef, { amount: 0.2 });
 
-  // Start with index 2 (or FlowDesk as featured center card matching Image 1)
-  const initialIndex = PROJECTS_LIST.findIndex((p) => p.id === 'flowdesk');
-  const [currentIndex, setCurrentIndex] = useState(initialIndex >= 0 ? initialIndex : 0);
+  // Feature the newest project first, while keeping the full carousel intact.
+  const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
 
   const total = PROJECTS_LIST.length;
@@ -125,111 +130,49 @@ export const ProjectsSection: React.FC = () => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (!carouselInView || !pageVisible) return;
+      if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       if (e.key === 'ArrowLeft') handlePrev();
       if (e.key === 'ArrowRight') handleNext();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [total]);
+  }, [total, carouselInView, pageVisible]);
 
   // Gentle autoplay with pause on hover
   useEffect(() => {
-    if (isHovered || shouldReduceMotion) return;
+    if (isHovered || shouldReduceMotion || !pageVisible || !carouselInView) return;
     const timer = setInterval(() => {
       handleNext();
     }, 5500);
     return () => clearInterval(timer);
-  }, [isHovered, shouldReduceMotion, currentIndex]);
+  }, [isHovered, shouldReduceMotion, currentIndex, pageVisible, carouselInView]);
 
   return (
-    <section
+    <AmbientSection
       id="projects"
+      pattern="studio"
       className="relative w-full py-16 sm:py-20 lg:py-28 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden select-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* ================= REQUIREMENT 3: SUBTLE FLOATING BACKGROUND GRADIENT ELEMENTS ================= */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        {/* Soft Radial Ambient Backdrop Mesh */}
-        <div className="absolute top-1/2 left-2/3 -translate-x-1/2 -translate-y-1/2 w-[750px] h-[480px] bg-gradient-to-r from-violet-200/50 via-purple-100/35 to-indigo-100/40 blur-3xl rounded-full" />
-        
-        {/* Floating Gradient Sphere 2 (Behind Center Card) */}
-        <motion.div
-          animate={
-            shouldReduceMotion
-              ? {}
-              : {
-                  y: [10, -14, 10],
-                  x: [6, -8, 6],
-                  scale: [1, 1.08, 1],
-                }
-          }
-          transition={{ duration: 8.5, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute top-1/3 right-[32%] w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-indigo-400/30 via-violet-300/20 to-transparent shadow-md blur-[0.5px]"
-        />
-
-        {/* Floating Gradient Sphere 3 (Bottom-Right) */}
-        <motion.div
-          animate={
-            shouldReduceMotion
-              ? {}
-              : {
-                  y: [-8, 10, -8],
-                  x: [-4, 6, -4],
-                }
-          }
-          transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
-          className="absolute bottom-16 right-[8%] w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gradient-to-br from-violet-500/20 to-purple-300/30 blur-[1px]"
-        />
-      </div>
-
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label="Selected Projects" watermark="PROJECTS">
           <span>Ideas Built into </span>
           <span className="text-violet-600">Real Products.</span>
         </SectionHeader>
         
-        {/* ================= MAIN CONTAINER: 2-COLUMN DESKTOP LAYOUT MATCHING IMAGE 1 ================= */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
-          
-          {/* ================= LEFT COLUMN: HERO COPY & VIEW ALL CTA ================= */}
-          <div className="lg:col-span-4 flex flex-col justify-center space-y-6 z-10">
-            <div>
-              {/* Supporting Copy */}
-              <p className="text-sm sm:text-base text-copy-secondary font-medium leading-relaxed max-w-sm">
-                A collection of projects where I applied design, development, and problem-solving to create meaningful digital experiences.
-              </p>
-            </div>
-
-            {/* View All Projects Action Button matching reference image */}
-            <div className="pt-2 flex items-center">
-              <a
-                href="https://github.com/mdqais29"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group inline-flex items-center gap-3 cursor-pointer select-none"
-                aria-label="View All Projects on GitHub"
-              >
-                {/* Black Circular Button with Arrow */}
-                <div className="w-11 h-11 rounded-full bg-slate-950 text-white flex items-center justify-center shadow-md group-hover:bg-violet-600 group-hover:scale-105 active:scale-95 transition-all duration-200">
-                  <ArrowRight className="w-4.5 h-4.5 group-hover:translate-x-0.5 transition-transform" />
-                </div>
-
-                {/* Button Label */}
-                <span className="text-sm font-bold text-slate-900 group-hover:text-violet-600 transition-colors">
-                  View All Projects
-                </span>
-              </a>
-            </div>
-
-          </div>
-
-          {/* ================= RIGHT COLUMN: 3D CARD STACK & CAROUSEL (Requirement 2 & 4) ================= */}
-          <div className="lg:col-span-8 relative">
+        {/* Center the existing carousel beneath the section heading. */}
+        <div className="relative w-full max-w-5xl mx-auto">
+          <div className="relative w-full">
             <div className="relative w-full">
                 {/* 3D Perspective Stage */}
                 <div
-                  className="relative h-[480px] sm:h-[530px] md:h-[550px] w-full flex items-center justify-center"
+                  ref={carouselRef}
+                  role="region"
+                  aria-roledescription="carousel"
+                  aria-label="Selected projects"
+                  className="relative h-[420px] sm:h-[480px] md:h-[510px] w-full flex items-center justify-center"
                   style={{ perspective: 1200 }}
                 >
                   {PROJECTS_LIST.map((project, idx) => {
@@ -347,6 +290,7 @@ export const ProjectsSection: React.FC = () => {
                               {isCenter && (
                                 <a
                                   href={project.link}
+                                  tabIndex={isCenter ? 0 : -1}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                   onClick={(e) => e.stopPropagation()}
@@ -379,6 +323,7 @@ export const ProjectsSection: React.FC = () => {
                                   {/* External Link */}
                                   <a
                                     href={project.link}
+                                    tabIndex={isCenter ? 0 : -1}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     onClick={(e) => e.stopPropagation()}
@@ -446,6 +391,7 @@ export const ProjectsSection: React.FC = () => {
                               : 'w-3 sm:w-4 bg-slate-300 hover:bg-slate-400'
                           }`}
                           aria-label={`Jump to project ${dotIdx + 1}`}
+                          aria-current={isActiveDot ? 'true' : undefined}
                         />
                       );
                     })}
@@ -467,7 +413,7 @@ export const ProjectsSection: React.FC = () => {
         </div>
 
       </div>
-    </section>
+    </AmbientSection>
   );
 };
 

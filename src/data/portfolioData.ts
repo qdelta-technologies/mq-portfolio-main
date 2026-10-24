@@ -47,10 +47,13 @@ export const PERSONAL_INFO = {
   primaryCta: "Explore My Work",
   secondaryCta: "Get in Touch",
   statusText: "Open to Client Projects & Remote Work",
-  email: "qaismd29@gmail.com",
+  email: "qais@qdelta.in",
   github: "https://github.com/mdqais29",
   businessSite: "https://www.qdelta.in/",
-  linkedin: "https://www.linkedin.com/in/mdqais29",
+  linkedin: "https://www.linkedin.com/in/md-qais-905039224/",
+  instagram: "https://www.instagram.com/mqtech.ai?psln=MWd0MndtZmp3YXJ3Zw==",
+  whatsapp: "https://wa.me/917815895689",
+  whatsappNumber: "+91 78158 95689",
   portraitSrc: "/images/qais-portrait-hero.png",
   logoSrc: "/images/mq-logo.png",
 };
@@ -61,7 +64,7 @@ export const NAV_ITEMS: NavItem[] = [
   { label: "Projects", href: "#projects" },
   { label: "Experience", href: "#experience" },
   { label: "Skills", href: "#skills" },
-  { label: "Certificates", href: "#certificates" },
+  { label: "Certifications", href: "#certificates" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -84,6 +87,24 @@ export const SOCIAL_LINKS: SocialLink[] = [
     href: PERSONAL_INFO.linkedin,
     icon: "linkedin",
     ariaLabel: "Connect with Mohammed Qaisuddin on LinkedIn",
+  },
+  {
+    name: "Instagram",
+    href: PERSONAL_INFO.instagram,
+    icon: "instagram",
+    ariaLabel: "Visit MQTech AI on Instagram",
+  },
+  {
+    name: "Email",
+    href: `mailto:${PERSONAL_INFO.email}`,
+    icon: "mail",
+    ariaLabel: "Email Mohammed Qaisuddin",
+  },
+  {
+    name: "WhatsApp",
+    href: PERSONAL_INFO.whatsapp,
+    icon: "whatsapp",
+    ariaLabel: "Chat with Mohammed Qaisuddin on WhatsApp",
   },
   {
     name: "Website",
@@ -165,6 +186,15 @@ export const PROJECTS_SECTION_DATA = {
 };
 
 export const PROJECTS_LIST: ProjectItem[] = [
+  {
+    id: "wts-nova",
+    title: "WTS Nova",
+    description: "A modern, clean website for a social media agency, showcasing its services and creative work.",
+    image: "/images/projects/wts-nova.png",
+    tags: ["Agency Website", "Web Development"],
+    link: "https://www.wtsnova.com/",
+    linkText: "View project",
+  },
   {
     id: "gsa",
     title: "Global Safety Academy",
@@ -353,20 +383,8 @@ export const LEARNING_CATEGORY: SkillCategory = {
 };
 
 /* ==========================================================================
-   EDUCATION & CERTIFICATIONS DATA
+   CERTIFICATIONS DATA
    ========================================================================== */
-export interface EducationItem {
-  id: string;
-  degree: string;
-  institution: string;
-  location: string;
-  period: string;
-  startYear?: string;
-  endYear?: string;
-  gradeLabel: string;
-  gradeValue: string;
-}
-
 export interface CertificationItem {
   id: string;
   number: string;
@@ -375,37 +393,13 @@ export interface CertificationItem {
   detail?: string;
 }
 
-export const EDUCATION_SECTION_DATA = {
-  label: "LEARNING",
-  headingPrefix: "Education & ",
-  headingHighlight: "Certificates",
-  description: "My academic background and professional certifications in AI, development and design.",
+export const CERTIFICATIONS_SECTION_DATA = {
+  label: "Credentials",
+  watermark: "CERTIFICATIONS",
+  headingPrefix: "Professional ",
+  headingHighlight: "Certifications",
+  description: "Certifications and achievements across AI, cloud, software development, and UI/UX design.",
 };
-
-export const EDUCATION_LIST: EducationItem[] = [
-  {
-    id: "btech-it",
-    degree: "Bachelor of Technology — Information Technology",
-    institution: "Guru Nanak Institute of Technology",
-    location: "Hyderabad, Telangana",
-    period: "2021 – 2025",
-    startYear: "2021",
-    endYear: "2025",
-    gradeLabel: "CGPA",
-    gradeValue: "7.92 / 10",
-  },
-  {
-    id: "ssc",
-    degree: "Secondary School Certificate (SSC)",
-    institution: "Kakatiya High School",
-    location: "Miryalaguda, Telangana",
-    period: "Completed",
-    startYear: "2019",
-    endYear: "2021",
-    gradeLabel: "GPA",
-    gradeValue: "9.7 / 10",
-  },
-];
 
 export const CERTIFICATIONS_LIST: CertificationItem[] = [
   {
@@ -463,8 +457,9 @@ export const CONTACT_SECTION_DATA = {
   primaryCtaText: "Get in Touch",
   secondaryCtaText: "Visit QDelta",
   email: PERSONAL_INFO.email,
+  whatsapp: PERSONAL_INFO.whatsapp,
+  whatsappNumber: PERSONAL_INFO.whatsappNumber,
   businessSite: PERSONAL_INFO.businessSite,
   github: PERSONAL_INFO.github,
   statusText: PERSONAL_INFO.statusText,
 };
-

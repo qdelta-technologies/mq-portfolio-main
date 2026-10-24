@@ -6,13 +6,16 @@ import { ServicesSection } from './components/ServicesSection';
 import { ProjectsSection } from './components/ProjectsSection';
 import { ExperienceSection } from './components/ExperienceSection';
 import { SkillsSection } from './components/SkillsSection';
-import { EducationSection } from './components/EducationSection';
+import { CertificationsSection } from './components/CertificationsSection';
 import { ContactSection } from './components/ContactSection';
 import { Footer } from './components/Footer';
+import { PageProgress, SiteMotionProvider, useSiteMotion } from './components/SiteMotion';
 
-export const App: React.FC = () => {
+const PortfolioPage: React.FC = () => {
+  const { reducedMotion, pageVisible } = useSiteMotion();
   return (
-    <div className="min-h-screen bg-[#FAF9F6] text-[#0F172A] selection:bg-[#DDD6FE] selection:text-[#5B21B6] flex flex-col font-sans overflow-x-hidden">
+    <div data-page-motion={reducedMotion || !pageVisible ? 'paused' : 'running'} className="min-h-screen bg-[#FAF9F6] text-[#0F172A] selection:bg-[#DDD6FE] selection:text-[#5B21B6] flex flex-col font-sans overflow-x-hidden">
+      <PageProgress />
       {/* Navigation */}
       <Navbar />
 
@@ -24,7 +27,7 @@ export const App: React.FC = () => {
         <ProjectsSection />
         <ExperienceSection />
         <SkillsSection />
-        <EducationSection />
+        <CertificationsSection />
         <ContactSection />
       </main>
 
@@ -33,5 +36,7 @@ export const App: React.FC = () => {
     </div>
   );
 };
+
+export const App: React.FC = () => <SiteMotionProvider><PortfolioPage /></SiteMotionProvider>;
 
 export default App;

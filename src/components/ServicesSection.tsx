@@ -1,7 +1,9 @@
 import React from 'react';
-import { motion, useReducedMotion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { SERVICES_SECTION_DATA, SERVICES_LIST, ServiceItem } from '../data/portfolioData';
 import { SectionHeader } from './SectionHeader';
+import { AmbientSection } from './AmbientSection';
+import { useSiteMotion } from './SiteMotion';
 
 // Custom icons matching the reference image
 const ServiceIcon: React.FC<{ id: string }> = ({ id }) => {
@@ -147,10 +149,10 @@ const ServiceIcon: React.FC<{ id: string }> = ({ id }) => {
 };
 
 export const ServicesSection: React.FC = () => {
-  const shouldReduceMotion = useReducedMotion();
+  const { reducedMotion: shouldReduceMotion, ambientMotion } = useSiteMotion();
 
   return (
-    <section id="services" className="relative w-full py-20 sm:py-24 lg:py-28 bg-[#FAF9F6] overflow-hidden">
+    <AmbientSection id="services" pattern="blueprint" className="relative w-full py-20 sm:py-24 lg:py-28 bg-[#FAF9F6] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <SectionHeader label={SERVICES_SECTION_DATA.label} watermark={SERVICES_SECTION_DATA.watermark}>
@@ -165,13 +167,14 @@ export const ServicesSection: React.FC = () => {
               key={service.id}
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={ambientMotion ? { y: -4, transition: { duration: 0.2, delay: 0 } } : undefined}
               viewport={{ once: true, amount: 0.15 }}
               transition={{
-                duration: 0.45,
+                duration: shouldReduceMotion ? 0 : 0.45,
                 delay: shouldReduceMotion ? 0 : index * 0.08,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="group relative rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7.5 border border-slate-300 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_45px_-10px_rgba(124,58,237,0.16)] hover:border-violet-500 hover:-translate-y-1.5 transition-all duration-300 overflow-hidden flex flex-col justify-start"
+              className="service-card premium-surface group relative rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7.5 border border-slate-300 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_45px_-10px_rgba(124,58,237,0.16)] hover:border-violet-500 transition-[border-color,box-shadow] duration-300 overflow-hidden flex flex-col justify-start"
             >
               {/* Left Vertical Purple Accent Bar */}
               <span className="w-1.5 h-8.5 rounded-full bg-violet-600 absolute left-4 top-6.5 group-hover:h-11 group-hover:bg-violet-700 transition-all duration-300" />
@@ -195,7 +198,7 @@ export const ServicesSection: React.FC = () => {
         </div>
 
       </div>
-    </section>
+    </AmbientSection>
   );
 };
 

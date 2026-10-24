@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform, useReducedMotion } from 'framer-motion';
+import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'framer-motion';
 import { 
   Code2, 
   Sparkles, 
@@ -11,6 +11,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 import { SectionHeader } from './SectionHeader';
+import { AmbientSection } from './AmbientSection';
+import { useSiteMotion } from './SiteMotion';
 
 /* ================= TECH LOGO INLINE SVGS ================= */
 const TechLogos: Record<string, React.FC<{ className?: string }>> = {
@@ -182,8 +184,10 @@ const CATEGORIES: CategoryData[] = [
 ];
 
 export const SkillsSection: React.FC = () => {
-  const shouldReduceMotion = useReducedMotion();
-  const containerRef = useRef<HTMLDivElement>(null);
+  const { reducedMotion: shouldReduceMotion, ambientMotion, pageVisible } = useSiteMotion();
+  const containerRef = useRef<HTMLElement>(null);
+  const inView = useInView(containerRef, { amount: 0.1 });
+  const animateOrbit = ambientMotion && pageVisible && inView;
 
   // Active category & hovered tech
   const [activeCategory, setActiveCategory] = useState<string>('dev');
@@ -195,11 +199,12 @@ export const SkillsSection: React.FC = () => {
     offset: ['start end', 'end start'],
   });
 
-  const orbitRotation = useTransform(scrollYProgress, [0, 1], shouldReduceMotion ? [0, 0] : [-12, 12]);
+  const orbitRotation = useTransform(scrollYProgress, [0, 1], animateOrbit ? [-12, 12] : [0, 0]);
 
   return (
-    <section
+    <AmbientSection
       id="skills"
+      pattern="constellation"
       ref={containerRef}
       className="relative w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden"
     >
@@ -278,7 +283,7 @@ export const SkillsSection: React.FC = () => {
             </div>
 
             {/* Orbital Rings Area */}
-            <div className="relative w-[340px] h-[340px] flex items-center justify-center">
+            <div className="skills-orbit relative w-[340px] h-[340px] shrink-0 flex items-center justify-center">
               
               {/* Concentric Orbital Circles with Parallax */}
               <motion.div
@@ -294,14 +299,14 @@ export const SkillsSection: React.FC = () => {
               {/* Center "MQ" Core Glossy Sphere */}
               <motion.div
                 animate={{
-                  scale: [1, 1.04, 1],
+                  scale: animateOrbit ? [1, 1.04, 1] : 1,
                 }}
                 transition={{
-                  duration: 4,
-                  repeat: Infinity,
+                  duration: shouldReduceMotion ? 0 : animateOrbit ? 4 : 0.2,
+                  repeat: animateOrbit ? Infinity : 0,
                   ease: 'easeInOut',
                 }}
-                className="relative z-20 w-24 sm:w-26 h-24 sm:h-26 rounded-full bg-gradient-to-br from-violet-600 via-indigo-700 to-purple-950 flex flex-col items-center justify-center shadow-[0_10px_35px_-5px_rgba(124,58,237,0.5),0_0_20px_rgba(139,92,246,0.4)] ring-4 ring-white cursor-pointer group"
+                className="relative z-20 w-24 sm:w-26 h-24 sm:h-26 rounded-full bg-gradient-to-br from-violet-600 via-indigo-700 to-purple-950 flex flex-col items-center justify-center shadow-[0_10px_35px_-5px_rgba(124,58,237,0.5),0_0_20px_rgba(139,92,246,0.4)] ring-4 ring-white group"
               >
                 {/* Specular Gloss Reflection on Sphere */}
                 <div className="absolute top-1.5 left-2.5 w-11 h-5 rounded-full bg-white/40 blur-[1px] -rotate-30 pointer-events-none" />
@@ -326,33 +331,37 @@ export const SkillsSection: React.FC = () => {
                 const LogoComponent = TechLogos[item.id] || TechLogos.react;
 
                 return (
-                  <div
+                  <button
                     key={item.id}
+                    type="button"
+                    aria-label={`Show ${item.name} skills`}
+                    aria-pressed={isCatActive}
+                    onClick={() => setActiveCategory(item.category)}
                     style={{
                       position: 'absolute',
                       left: `calc(50% + ${x}px)`,
                       top: `calc(50% + ${y}px)`,
                       transform: 'translate(-50%, -50%)',
                     }}
-                    className="z-30 cursor-pointer"
+                    className="group z-30 cursor-pointer rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
                     onMouseEnter={() => {
                       setHoveredTech(item.id);
                       setActiveCategory(item.category);
                     }}
                     onMouseLeave={() => setHoveredTech(null)}
                   >
-                    <motion.div
+                    <motion.span
                       animate={{
-                        y: shouldReduceMotion ? 0 : [0, -3.5, 0],
+                        y: animateOrbit ? [0, -3.5, 0] : 0,
                         scale: isCatActive || isHovered ? 1.15 : 1,
                       }}
                       transition={{
                         y: {
-                          duration: 2.8 + (item.angle % 3) * 0.4,
-                          repeat: Infinity,
+                          duration: shouldReduceMotion ? 0 : animateOrbit ? 2.8 + (item.angle % 3) * 0.4 : 0.2,
+                          repeat: animateOrbit ? Infinity : 0,
                           ease: 'easeInOut',
                         },
-                        scale: { duration: 0.2 },
+                        scale: { duration: shouldReduceMotion ? 0 : 0.2 },
                       }}
                       className={`relative flex items-center justify-center w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-white border transition-all duration-300 shadow-md ${
                         isCatActive || isHovered
@@ -362,8 +371,8 @@ export const SkillsSection: React.FC = () => {
                       title={item.name}
                     >
                       <LogoComponent className="w-5 h-5 sm:w-5.5 sm:h-5.5 transition-transform duration-200 group-hover:scale-110" />
-                    </motion.div>
-                  </div>
+                    </motion.span>
+                  </button>
                 );
               })}
 
@@ -378,19 +387,26 @@ export const SkillsSection: React.FC = () => {
               return (
                 <motion.div
                   key={cat.id}
-                  layout
-                  onClick={() => setActiveCategory(cat.id)}
-                  className={`rounded-2xl border transition-all duration-200 p-3 sm:p-3.5 cursor-pointer select-none ${
+                  layout={!shouldReduceMotion}
+                  className={`premium-surface rounded-2xl border transition-colors duration-200 p-3 sm:p-3.5 ${
                     isActive
                       ? 'bg-white border-violet-500 shadow-[0_6px_25px_-8px_rgba(124,58,237,0.25)] ring-1 ring-violet-500/30'
                       : 'bg-white/90 border-stroke hover:border-slate-300 hover:bg-white shadow-xs'
                   }`}
                 >
                   {/* Category Title Row */}
-                  <div className="flex items-center justify-between gap-3">
-                    <div className="flex items-center gap-2.5 min-w-0">
+                  <h3>
+                  <button
+                    type="button"
+                    id={`skill-trigger-${cat.id}`}
+                    aria-expanded={isActive}
+                    aria-controls={`skill-panel-${cat.id}`}
+                    onClick={() => setActiveCategory(previous => previous === cat.id ? '' : cat.id)}
+                    className="flex min-h-11 w-full items-center justify-between gap-3 rounded-xl text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
+                  >
+                    <span className="flex items-center gap-2.5 min-w-0">
                       {/* Icon */}
-                      <div
+                      <span
                         className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border transition-colors ${
                           isActive
                             ? 'bg-violet-50 border-violet-200 text-violet-700'
@@ -398,20 +414,20 @@ export const SkillsSection: React.FC = () => {
                         }`}
                       >
                         {cat.icon}
-                      </div>
+                      </span>
 
                       {/* Title */}
-                      <h3
+                      <span
                         className={`text-sm font-bold tracking-tight truncate ${
                           isActive ? 'text-violet-700' : 'text-slate-900'
                         }`}
                       >
                         {cat.title}
-                      </h3>
-                    </div>
+                      </span>
+                    </span>
 
                     {/* Tool Count + Arrow */}
-                    <div className="flex items-center gap-1.5 shrink-0">
+                    <span className="flex items-center gap-1.5 shrink-0">
                       <span
                         className={`text-[11px] font-mono font-bold px-2.5 py-0.5 rounded-full border transition-colors ${
                           isActive
@@ -426,17 +442,21 @@ export const SkillsSection: React.FC = () => {
                           isActive ? 'rotate-90 text-violet-700' : 'text-copy-muted'
                         }`}
                       />
-                    </div>
-                  </div>
+                    </span>
+                  </button>
+                  </h3>
 
                   {/* Expandable Skills Drawer */}
                   <AnimatePresence initial={false}>
                     {isActive && (
                       <motion.div
-                        initial={{ opacity: 0, height: 0 }}
+                        id={`skill-panel-${cat.id}`}
+                        role="region"
+                        aria-labelledby={`skill-trigger-${cat.id}`}
+                        initial={shouldReduceMotion ? false : { opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                        transition={{ duration: shouldReduceMotion ? 0 : 0.22, ease: [0.16, 1, 0.3, 1] }}
                         className="overflow-hidden"
                       >
                         <div className="pt-2.5 mt-2.5 border-t border-stroke/75 flex flex-wrap gap-1.5">
@@ -460,7 +480,7 @@ export const SkillsSection: React.FC = () => {
         </div>
 
       </div>
-    </section>
+    </AmbientSection>
   );
 };
 

@@ -1,4 +1,6 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import { useSiteMotion } from './SiteMotion';
 
 interface SectionHeaderProps {
   label: string;
@@ -7,10 +9,16 @@ interface SectionHeaderProps {
 }
 
 /** Shared Services-style heading, kept above each section's content layout. */
-export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, children }) => (
-  <div
+export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, children }) => {
+  const { reducedMotion } = useSiteMotion();
+  return (
+  <motion.div
     className="relative isolate flex min-h-28 sm:min-h-36 lg:min-h-40 flex-col items-center justify-center py-4 sm:py-6 text-center mb-12 sm:mb-16"
     style={{ containerType: 'inline-size' }}
+    initial={reducedMotion ? false : { opacity: 0, y: 12 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    viewport={{ once: true, amount: 0.3 }}
+    transition={{ duration: reducedMotion ? 0 : 0.55, ease: [0.16, 1, 0.3, 1] }}
   >
     <span
       aria-hidden="true"
@@ -30,5 +38,6 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
     <h2 className="relative max-w-4xl text-balance text-3xl sm:text-4xl lg:text-[44px] font-extrabold tracking-tight text-slate-900 leading-[1.12] font-display">
       {children}
     </h2>
-  </div>
-);
+  </motion.div>
+  );
+};

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WTS Nova — Website project mockup</title>
+    <!-- Custom portfolio mockup. Screen: actual wtsnova.com homepage.
+         Background photograph: wtsnova.com/images/service-online-presence.webp.
+         Render at 1440 × 945 to match the portfolio's 16:10.5 image crop. -->
+    <style>
+      * { box-sizing: border-box; }
+      html, body { margin: 0; width: 1440px; height: 945px; overflow: hidden; }
+      body { background: #07111f; font-family: Arial, sans-serif; }
+      .scene { position: relative; width: 1440px; height: 945px; overflow: hidden; background: #0c1725; }
+      .office-photo { position: absolute; inset: -30px; width: 1500px; height: 1000px; object-fit: cover; filter: blur(10px) brightness(0.48) saturate(0.6); opacity: 0.6; }
+      .room-light { position: absolute; inset: 0; background: radial-gradient(ellipse at 6% 36%, #b9763866, transparent 45%), radial-gradient(ellipse at 91% 28%, #38669899, transparent 46%), linear-gradient(90deg, #060c18a6, #09152533 60%, #08111b55); }
+      .window { position: absolute; top: -50px; right: -50px; width: 430px; height: 700px; background: linear-gradient(180deg, #86b2d1a3, #233d5f 63%, #111e31); border: 18px solid #0d1723; box-shadow: inset 0 0 90px #0a172a99, -15px 0 30px #0008; transform: skewY(-3deg); }
+      .window::before { content: ''; position: absolute; left: 46%; top: 0; bottom: 0; width: 14px; background: #111c29; box-shadow: 2px 0 12px #0008; }
+      .city { position: absolute; bottom: 25px; background: repeating-linear-gradient(90deg, transparent 0 20px, #ffdb9b77 21px 26px, transparent 27px 43px), repeating-linear-gradient(0deg, #10223c 0 19px, #48779577 20px 24px, #12243c 25px 37px); filter: blur(3px); border-radius: 7px 7px 0 0; opacity: 0.8; }
+      .city.one { left: 5px; width: 138px; height: 300px; }
+      .city.two { right: -10px; width: 178px; height: 430px; }
+      .city.three { left: 140px; width: 88px; height: 228px; }
+      .shelf { position: absolute; left: 0; top: 58px; width: 375px; height: 10px; background: #3e3026; box-shadow: 0 7px 9px #ffc16c77, 0 30px 80px #f0a04c55; }
+      .desk { position: absolute; left: -8%; bottom: -18px; width: 116%; height: 275px; background: repeating-linear-gradient(3deg, #ffffff02 0 1px, transparent 1px 6px), linear-gradient(110deg, #775037, #49382a 25%, #233445 67%, #14334c); border-top: 2px solid #c28b5980; box-shadow: 0 -20px 70px #b4793833; transform: skewY(-1deg); }
+      .desk::after { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 65% 10%, #87c9ff33, transparent 57%), linear-gradient(180deg, transparent, #040c17aa); }
+      .screen-glow { position: absolute; top: 74px; left: 155px; width: 1100px; height: 740px; border-radius: 100px; background: #3b94ef; filter: blur(100px); opacity: 0.13; }
+      .monitor-shadow { position: absolute; left: 291px; bottom: 98px; width: 850px; height: 70px; background: #03070f; border-radius: 50%; filter: blur(24px); opacity: 0.9; }
+      .stand { position: absolute; left: 650px; top: 681px; width: 150px; height: 135px; background: linear-gradient(100deg, #1b2633, #435264 32%, #182839 66%, #0d1724); clip-path: polygon(28% 0, 79% 0, 100% 100%, 0 100%); }
+      .base { position: absolute; left: 539px; top: 793px; width: 365px; height: 37px; border-radius: 12px 12px 15px 15px; background: linear-gradient(180deg, #5b6875, #1b2a39 35%, #0c1420 90%); border: 1px solid #b6c6d133; transform: skewX(-18deg); box-shadow: 0 14px 18px #0008, inset 0 2px 0 #a0b2c84d; }
+      .monitor { position: absolute; left: 180px; top: 75px; width: 1096px; height: 690px; padding: 11px 12px 17px; border-radius: 20px; background: linear-gradient(120deg, #8d7b60 0%, #1b2736 2%, #030a15 23%, #0d1b2b 70%, #46586a); border: 1px solid #9aa3a855; box-shadow: -12px 24px 55px #0009, 0 1px 0 #d8dce533, inset 1px 0 1px #dab18577; transform: perspective(1900px) rotateY(-7deg) rotateZ(-1.2deg); transform-origin: 50% 75%; }
+      .display { position: relative; width: 100%; height: 100%; border-radius: 10px; background: #081525; overflow: hidden; }
+      .display img { display: block; width: 100%; height: 100%; object-fit: fill; }
+      .display::after { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(125deg, #b0ceef0a, transparent 42%, #050a1210); box-shadow: inset 0 0 8px #0009; }
+      .camera { position: absolute; left: 50%; top: 4px; width: 4px; height: 4px; border-radius: 50%; background: #14273d; box-shadow: inset 0 0 0 1px #7c9eae44; }
+      .lamp-arm { position: absolute; top: 237px; left: 60px; width: 13px; height: 422px; background: linear-gradient(90deg, #151a22, #53616b 45%, #171d28 70%); transform: rotate(7deg); border-radius: 12px; box-shadow: 8px 8px 15px #0007; }
+      .lamp-shade { position: absolute; top: 184px; left: 10px; width: 150px; height: 126px; border-radius: 48px 48px 12px 12px; background: linear-gradient(105deg, #171b22, #3d3e3c 45%, #11151c 82%); transform: rotate(24deg); box-shadow: -6px -2px 10px #afa58d33; }
+      .lamp-shade::after { content: ''; position: absolute; bottom: -10px; left: 0; width: 150px; height: 28px; border-radius: 50%; background: #ffe6ac; box-shadow: 0 0 30px #ffd98dcc, 0 20px 100px 24px #f2ad4e88; }
+      .lamp-foot { position: absolute; left: 9px; top: 658px; width: 125px; height: 20px; background: linear-gradient(#4b4e4e, #151e28); border-radius: 50%; }
+      .books { position: absolute; left: -11px; bottom: 102px; width: 233px; transform: rotate(-3deg); }
+      .book { height: 36px; padding: 8px 18px; margin-top: 2px; border-radius: 2px 5px 5px 2px; color: #d1c5b9; font-size: 17px; letter-spacing: 0.02em; background: linear-gradient(#222530, #111721); border-top: 1px solid #c3aa7b44; box-shadow: 4px 6px 6px #0005; }
+      .book:nth-child(2) { width: 220px; margin-left: 8px; }
+      .keyboard { position: absolute; bottom: 21px; left: 375px; width: 590px; height: 97px; padding: 11px; border-radius: 9px; transform: perspective(550px) rotateX(42deg) rotateZ(-1.3deg); background: linear-gradient(170deg, #20354a, #0a111a); border: 1px solid #67849a55; box-shadow: 2px 15px 10px #0009; }
+      .keys { height: 100%; border-radius: 3px; background-color: #0b1521; background-image: repeating-linear-gradient(90deg, transparent 0 31px, #03101e 32px 36px), repeating-linear-gradient(0deg, #243244 0 14px, #415269 15px 16px, #08111a 17px 21px); }
+      .mouse { position: absolute; bottom: 40px; right: 152px; width: 116px; height: 61px; border-radius: 56% 58% 48% 47%; transform: rotate(-13deg); background: linear-gradient(125deg, #536d85, #172536 47%, #050c15 80%); box-shadow: 7px 12px 12px #0009, inset 0 1px 1px #a1c4e544; }
+      .mouse::after { content: ''; position: absolute; top: 8px; left: 53px; width: 5px; height: 15px; border-radius: 4px; background: #050d19; }
+      .pen-cup { position: absolute; right: 18px; bottom: 104px; width: 93px; height: 133px; border-radius: 7px 7px 17px 17px; background: linear-gradient(95deg, #806747, #26272b 30%, #0a131e 75%, #64523d); border-top: 4px solid #c29f6955; box-shadow: 8px 15px 16px #0008; }
+      .pen { position: absolute; bottom: 124px; width: 7px; height: 120px; border-radius: 2px; background: linear-gradient(90deg, #aa997e, #182231 48%, #040c17); }
+      .pen.a { left: 15px; transform: rotate(-13deg); }
+      .pen.b { left: 39px; height: 145px; transform: rotate(7deg); }
+      .pen.c { left: 61px; transform: rotate(15deg); }
+      .vignette { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(ellipse at 50% 43%, transparent 36%, #040a1580 100%); }
+    </style>
+  </head>
+  <body>
+    <main class="scene" aria-label="WTS Nova's real homepage displayed on a desktop monitor in a warmly lit creative workspace">
+      <img class="office-photo" src="wts-office-reference.webp" alt="" />
+      <div class="room-light"></div>
+      <div class="window"><div class="city one"></div><div class="city two"></div><div class="city three"></div></div>
+      <div class="shelf"></div>
+      <div class="desk"></div>
+      <div class="screen-glow"></div>
+      <div class="monitor-shadow"></div>
+      <div class="stand"></div><div class="base"></div>
+      <div class="monitor"><div class="camera"></div><div class="display"><img src="wts-nova-screen.png" alt="WTS Nova social media agency website" /></div></div>
+      <div class="lamp-arm"></div><div class="lamp-shade"></div><div class="lamp-foot"></div>
+      <div class="books"><div class="book">Strategy</div><div class="book">Social Media</div><div class="book">Brand Growth</div></div>
+      <div class="keyboard"><div class="keys"></div></div><div class="mouse"></div>
+      <div class="pen-cup"><div class="pen a"></div><div class="pen b"></div><div class="pen c"></div></div>
+      <div class="vignette"></div>
+    </main>
+  </body>
+</html>

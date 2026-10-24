@@ -1,4 +1,13 @@
 import React from 'react';
+import { InstagramLogo, WhatsappLogo } from '@phosphor-icons/react';
+
+export const InstagramIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <InstagramLogo className={className} weight="bold" aria-hidden="true" />
+);
+
+export const WhatsappIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <WhatsappLogo className={className} weight="fill" aria-hidden="true" />
+);
 
 export const GithubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
   <svg className={className} fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
