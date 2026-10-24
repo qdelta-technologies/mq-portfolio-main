@@ -8,9 +8,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <header
-      className="fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-3.5 px-4 sm:px-6 lg:px-8 bg-transparent"
+      className="absolute top-0 left-0 right-0 z-50 transition-all duration-300 py-3 sm:py-3.5 px-4 sm:px-8 lg:px-12 xl:px-16 bg-transparent"
     >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
+      <div className="w-full max-w-[1680px] mx-auto flex items-center justify-between">
         
         {/* ================= LEFT: Brand Identity (Custom MQ Logo) ================= */}
         <a

@@ -105,47 +105,53 @@ export const TICKER_ITEMS = [
 
 export const SERVICES_SECTION_DATA = {
   label: "My Specialization",
-  headingPrefix: "Services ",
-  headingHighlight: "I Provide",
-  description: "Practical digital solutions that turn ideas into useful products, automations, and modern web experiences for ambitious businesses.",
-  scriptText: "From ideas to real solutions",
+  headingHighlight: "Services",
+  headingSuffix: "I Provide",
+  watermark: "SERVICES",
 };
 
 export const SERVICES_LIST: ServiceItem[] = [
   {
-    id: "ai-automation",
+    id: "web-dev",
     number: "01",
-    title: "AI & Workflow Automation",
-    description: "Help businesses automate repetitive tasks and connect tools using AI-powered workflows to save time and improve productivity.",
-    tags: ["Make", "n8n", "ChatGPT", "AI Automation", "Workflow Design"],
-  },
-  {
-    id: "websites",
-    number: "02",
-    title: "Websites & Digital Experiences",
-    description: "Modern, responsive websites, landing pages, and conversion-focused digital experiences built for speed and engagement.",
+    title: "Web Design & Development",
+    description: "Modern, responsive and high-performing websites tailored to your brand and goals.",
     tags: ["React", "Next.js", "Tailwind CSS", "Responsive Web", "SEO"],
   },
   {
     id: "ui-ux",
-    number: "03",
-    title: "UI/UX & Product Design",
-    description: "User-focused interface design, wireframes, prototypes, and polished design systems created with modern precision.",
+    number: "02",
+    title: "UI/UX Design",
+    description: "User-focused interfaces, wireframes and product designs that deliver seamless digital experiences.",
     tags: ["Figma", "Wireframing", "Prototypes", "Design Systems", "UI/UX"],
   },
   {
-    id: "digital-products",
-    number: "04",
-    title: "AI-Powered Digital Products",
-    description: "AI-enabled web applications and practical digital tools designed around real user needs.",
-    tags: ["Generative AI", "Web Apps", "APIs", "Cursor", "AI Prototyping"],
+    id: "landing-page",
+    number: "03",
+    title: "Landing Page Optimization",
+    description: "Conversion-focused landing pages with clear messaging and strategic calls to action.",
+    tags: ["CRO", "Copywriting", "A/B Testing", "Speed", "Analytics"],
   },
   {
-    id: "digital-systems",
+    id: "social-media",
+    number: "04",
+    title: "Social Media Management",
+    description: "Content planning, posting, and brand growth across multiple platforms.",
+    tags: ["Instagram", "LinkedIn", "YouTube", "Content Strategy", "Growth"],
+  },
+  {
+    id: "content-writing",
     number: "05",
-    title: "Digital Systems & Architecture",
-    description: "Robust digital infrastructure, custom API integrations, and scalable software architecture designed for reliability.",
-    tags: ["System Architecture", "Cloud APIs", "Database Design", "Scalability", "DevOps"],
+    title: "Content Creation & Writing",
+    description: "Engaging content for social media, websites, and blogs tailored to your audience.",
+    tags: ["SEO Articles", "Copywriting", "Storytelling", "Brand Voice"],
+  },
+  {
+    id: "ai-automation",
+    number: "06",
+    title: "AI & Workflow Automation",
+    description: "Automate repetitive tasks, connect tools, and build intelligent workflows using AI and automation platforms.",
+    tags: ["n8n", "Make", "ChatGPT", "AI Agents", "Automations"],
   },
 ];
 
@@ -355,6 +361,8 @@ export interface EducationItem {
   institution: string;
   location: string;
   period: string;
+  startYear?: string;
+  endYear?: string;
   gradeLabel: string;
   gradeValue: string;
 }
@@ -371,7 +379,7 @@ export const EDUCATION_SECTION_DATA = {
   label: "LEARNING",
   headingPrefix: "Education & ",
   headingHighlight: "Certificates",
-  description: "My academic background and certifications in AI, development and design.",
+  description: "My academic background and professional certifications in AI, development and design.",
 };
 
 export const EDUCATION_LIST: EducationItem[] = [
@@ -381,6 +389,8 @@ export const EDUCATION_LIST: EducationItem[] = [
     institution: "Guru Nanak Institute of Technology",
     location: "Hyderabad, Telangana",
     period: "2021 – 2025",
+    startYear: "2021",
+    endYear: "2025",
     gradeLabel: "CGPA",
     gradeValue: "7.92 / 10",
   },
@@ -388,8 +398,10 @@ export const EDUCATION_LIST: EducationItem[] = [
     id: "ssc",
     degree: "Secondary School Certificate (SSC)",
     institution: "Kakatiya High School",
-    location: "Miryalguda, Telangana",
+    location: "Miryalaguda, Telangana",
     period: "Completed",
+    startYear: "2019",
+    endYear: "2021",
     gradeLabel: "GPA",
     gradeValue: "9.7 / 10",
   },
