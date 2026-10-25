@@ -429,6 +429,50 @@ body {
 .skill-orbit-description__name { font-weight: 800; color: #251941; white-space: nowrap; }
 .skill-orbit-description__divider { width: 1px; height: 15px; flex-shrink: 0; background: #c7b9df; }
 .skill-orbit-description__detail { font-weight: 500; }
+.skill-orbit-ring--mobile, .skill-orbit-mobile-skills { display: none; }
+
+/* Phones get a compact circular tool dial instead of stretched, tiny text pills. */
+@media (max-width: 639px) {
+  .skill-orbit-shell { width: min(100%, 400px); padding-block: 4px; }
+  .skill-orbit-stage { aspect-ratio: 1; min-height: 0; perspective: none; }
+  .skill-orbit-stage::before { inset: 15%; }
+  .skill-orbit-ring--desktop { display: none; }
+  .skill-orbit-ring--mobile { display: block; height: auto; aspect-ratio: 1; --orbit-duration: 28s; transform-style: flat; }
+  .skill-orbit-ring--mobile-0 { width: 48%; border-style: solid; border-color: #b5a0d44d; }
+  .skill-orbit-ring--mobile-1 { width: 84%; border-color: #a38ac451; }
+  .skill-orbit-core { width: 22%; min-width: 60px; transform: translate(-50%, -50%); border-width: 3px; box-shadow: 0 10px 25px -12px #36107484, inset 0 2px 4px #ffffff7a, 0 0 0 5px #7631e50a; }
+  .skill-orbit-core__letters { font-size: clamp(24px, 8cqw, 32px); }
+  .skill-orbit-core__caption { display: none; }
+  .skill-orbit-core::after { content: 'TOOLKIT'; margin-top: 5px; font: 700 7px/1 var(--font-sans); letter-spacing: 0.12em; }
+  .skill-orbit-token { display: grid; place-items: center; width: clamp(44px, 12cqw, 48px); aspect-ratio: 1; padding: 0; border: 1px solid #c6b5df; border-radius: 50%; background: linear-gradient(145deg, #fff, #f2ecfc); color: #6523ce; cursor: pointer; box-shadow: 0 5px 12px -7px #3d23585c, inset 0 1px 0 #fff; transition: color 180ms, background-color 180ms, border-color 180ms, box-shadow 180ms; -webkit-tap-highlight-color: transparent; }
+  .skill-orbit-token__abbr { font: 800 10px/1 var(--font-display); letter-spacing: -0.03em; }
+  .skill-orbit-token[aria-pressed='true'] { color: #fff; border-color: #7631e5; background: linear-gradient(145deg, #9564ef, #6523ce); box-shadow: 0 0 0 4px #7631e514, 0 6px 16px -7px #6523ce88; }
+  .skill-orbit-token:focus-visible { outline: 2px solid #7631e5; outline-offset: 4px; }
+  .skill-orbit-mobile-skills { display: grid; gap: 10px; margin-top: 20px; }
+  .skill-name-row { overflow: hidden; padding-block: 2px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
+  .skill-name-track { display: flex; width: max-content; }
+  .skill-name-group { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-right: 8px; list-style: none; }
+  .skill-name-chip { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 7px 12px; border: 1px solid #ded3ee; border-radius: 999px; background: linear-gradient(135deg, #ffffffed, #f6f0ffed); color: #3d3155; font-size: 11px; font-weight: 600; white-space: nowrap; box-shadow: 0 3px 8px -6px #44247d66; }
+  .skill-name-chip svg { flex-shrink: 0; color: #7631e5; }
+  .skill-name-chip[data-selected='true'] { border-color: #b795eb; background: #f0e7fc; color: #5420a0; }
+}
+@keyframes skill-names-scroll {
+  to { transform: translateX(-50%); }
+}
+@media (max-width: 639px) and (prefers-reduced-motion: no-preference) {
+  .skill-name-track { animation: skill-names-scroll 32s linear infinite; animation-play-state: paused; }
+  .skill-name-row:nth-child(2) .skill-name-track { animation-direction: reverse; animation-duration: 36s; }
+  .skill-name-row:nth-child(3) .skill-name-track { animation-duration: 30s; }
+  #skills[data-orbit-active='true'] .skill-name-track { animation-play-state: running; }
+  #skills:focus-within .skill-name-track { animation-play-state: paused; }
+}
+@media (max-width: 639px) and (prefers-reduced-motion: reduce) {
+  .skill-name-row { mask-image: none; }
+  .skill-name-track { width: 100%; }
+  .skill-name-group { flex-wrap: wrap; justify-content: center; flex-shrink: 1; padding-right: 0; }
+  .skill-name-group[aria-hidden='true'] { display: none; }
+}
+
 @keyframes skill-ring-turn {
   0%, 100% { transform: translate(-50%, -50%) rotate(-6deg); }
   50% { transform: translate(-50%, -50%) rotate(6deg); }

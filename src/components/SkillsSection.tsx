@@ -57,6 +57,14 @@ const ORBITS: OrbitRing[] = [
   },
 ];
 
+// Two evenly spaced circular tracks are clearer than three crowded ellipses on phones.
+const MOBILE_SKILLS = ORBITS.flatMap(ring => ring.skills);
+const MOBILE_ORBITS = [MOBILE_SKILLS.slice(0, 8), MOBILE_SKILLS.slice(8)];
+const MOBILE_SKILL_ROWS = [MOBILE_SKILLS.slice(0, 6), MOBILE_SKILLS.slice(6, 11), MOBILE_SKILLS.slice(11)];
+const MOBILE_ABBREVIATIONS: Record<string, string> = {
+  python: 'Py', nextjs: 'Next', n8n: 'n8n', make: 'Make', canva: 'Ca',
+};
+
 export const SkillsSection: React.FC = () => {
   const [selected, setSelected] = useState<OrbitSkill>(ORBITS[0].skills[0]);
   const sectionRef = useRef<HTMLElement>(null);
@@ -88,7 +96,7 @@ export const SkillsSection: React.FC = () => {
             </div>
 
             {ORBITS.map(ring => (
-              <div className={`skill-orbit-ring skill-orbit-ring--${ring.id}`} key={ring.id}>
+              <div className={`skill-orbit-ring skill-orbit-ring--desktop skill-orbit-ring--${ring.id}`} key={ring.id}>
                 {ring.skills.map(skill => {
                   const radians = skill.angle * Math.PI / 180;
                   const position = {
@@ -114,8 +122,51 @@ export const SkillsSection: React.FC = () => {
                 })}
               </div>
             ))}
-          </motion.div>
 
+            {MOBILE_ORBITS.map((skills, ringIndex) => (
+              <div className={`skill-orbit-ring skill-orbit-ring--mobile skill-orbit-ring--mobile-${ringIndex}`} key={ringIndex}>
+                {skills.map((skill, index) => {
+                  const radians = (index * 45 - 90 + ringIndex * 22.5) * Math.PI / 180;
+                  return (
+                    <div className="skill-orbit-item" key={skill.id} style={{ left: `${50 + Math.cos(radians) * 50}%`, top: `${50 + Math.sin(radians) * 50}%` }}>
+                      <div className="skill-orbit-label">
+                        <button
+                          type="button"
+                          className="skill-orbit-token"
+                          aria-label={skill.label}
+                          aria-pressed={selected.id === skill.id}
+                          title={skill.label}
+                          onClick={() => setSelected(skill)}
+                        >
+                          {MOBILE_ABBREVIATIONS[skill.id]
+                            ? <span aria-hidden="true" className="skill-orbit-token__abbr">{MOBILE_ABBREVIATIONS[skill.id]}</span>
+                            : <skill.Icon aria-hidden="true" size={19} strokeWidth={1.8} />}
+                        </button>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </motion.div>
+          <div className="skill-orbit-mobile-skills" aria-label="Skills and tools">
+            {MOBILE_SKILL_ROWS.map((skills, rowIndex) => (
+              <div className="skill-name-row" key={rowIndex}>
+                <div className="skill-name-track">
+                  {[false, true].map(duplicate => (
+                    <ul className="skill-name-group" key={String(duplicate)} aria-hidden={duplicate || undefined}>
+                      {skills.map(skill => (
+                        <li className="skill-name-chip" data-selected={selected.id === skill.id} key={skill.id}>
+                          <skill.Icon aria-hidden="true" size={14} strokeWidth={1.8} />
+                          <span>{skill.label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </AmbientSection>
