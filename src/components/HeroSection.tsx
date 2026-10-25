@@ -228,8 +228,12 @@ export const HeroSection: React.FC = () => {
         <motion.div
           className="w-full"
           initial={false}
-          animate={{ opacity: shouldReduceMotion || portraitReady ? 1 : 0, scale: portraitReady || !isDesktop || shouldReduceMotion ? 1 : 0.985 }}
-          transition={{ duration: shouldReduceMotion ? 0 : isDesktop ? 0.6 : 0.32, ease: [0.16, 1, 0.3, 1] }}
+          animate={{
+            opacity: shouldReduceMotion || portraitReady ? 1 : 0,
+            y: shouldReduceMotion || portraitReady ? 0 : isDesktop ? 12 : 6,
+            scale: portraitReady || !isDesktop || shouldReduceMotion ? 1 : 0.98,
+          }}
+          transition={{ duration: shouldReduceMotion ? 0 : isDesktop ? 0.8 : 0.6, ease: [0.16, 1, 0.3, 1] }}
           style={{ transformOrigin: '50% 100%' }}
         >
           <OptimizedImage

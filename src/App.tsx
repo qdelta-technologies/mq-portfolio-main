@@ -14,7 +14,7 @@ import { PageProgress, SiteMotionProvider, useSiteMotion } from './components/Si
 const PortfolioPage: React.FC = () => {
   const { reducedMotion, pageVisible } = useSiteMotion();
   return (
-    <div data-page-motion={reducedMotion || !pageVisible ? 'paused' : 'running'} className="min-h-screen bg-[#FAF9F6] text-[#0F172A] selection:bg-[#DDD6FE] selection:text-[#5B21B6] flex flex-col font-sans overflow-x-hidden">
+    <div data-page-motion={reducedMotion || !pageVisible ? 'paused' : 'running'} className="min-h-screen bg-[#FAF9F6] text-[#0F172A] selection:bg-[#DDD6FE] selection:text-[#5B21B6] flex flex-col font-sans overflow-x-clip">
       <PageProgress />
       {/* Navigation */}
       <Navbar />

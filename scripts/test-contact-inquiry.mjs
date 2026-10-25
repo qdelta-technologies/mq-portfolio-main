@@ -15,24 +15,23 @@ const valid = {
   ...EMPTY_INQUIRY,
   name: 'Avery Example',
   email: 'avery+portfolio@example.com',
-  service: 'Website',
   message: 'I need a responsive website with a project gallery and a clear contact page.',
 };
 const prepare = values => prepareInquiry(values, 'qais@qdelta.in', 'https://wa.me/917815895689');
 
 test('an empty inquiry identifies every required field', () => {
-  assert.deepEqual(Object.keys(validateInquiry(EMPTY_INQUIRY)).sort(), ['email', 'message', 'name', 'service']);
+  assert.deepEqual(Object.keys(validateInquiry(EMPTY_INQUIRY)).sort(), ['email', 'message', 'name']);
 });
 
-test('a complete inquiry does not require optional company or timeline', () => {
+test('only name, email and query are needed', () => {
+  assert.deepEqual(Object.keys(EMPTY_INQUIRY).sort(), ['email', 'message', 'name']);
   assert.deepEqual(validateInquiry(valid), {});
 });
 
-test('invalid emails, project types and timeline values are rejected', () => {
-  const errors = validateInquiry({ ...valid, email: 'not-an-email', service: 'Unsupported service', timeline: 'Invalid value' });
-  assert.ok(errors.email);
-  assert.ok(errors.service);
-  assert.ok(errors.timeline);
+test('invalid emails are rejected', () => {
+  for (const email of ['not-an-email', 'a@', 'a b@example.com', '@example.com']) {
+    assert.ok(validateInquiry({ ...valid, email }).email);
+  }
 });
 
 test('empty or whitespace-only names and briefs are rejected', () => {
@@ -41,22 +40,21 @@ test('empty or whitespace-only names and briefs are rejected', () => {
   assert.ok(errors.message);
 });
 
-test('briefs accept the stated 20–2000 character range', () => {
-  assert.ok(validateInquiry({ ...valid, message: 'x'.repeat(19) }).message);
-  assert.equal(validateInquiry({ ...valid, message: 'x'.repeat(20) }).message, undefined);
+test('queries accept short questions and enforce the 2000 character limit', () => {
+  assert.equal(validateInquiry({ ...valid, message: 'Are you available?' }).message, undefined);
+  assert.equal(validateInquiry({ ...valid, message: 'x' }).message, undefined);
   assert.equal(validateInquiry({ ...valid, message: 'x'.repeat(2000) }).message, undefined);
   assert.ok(validateInquiry({ ...valid, message: 'x'.repeat(2001) }).message);
 });
 
-test('oversized optional and personal fields are rejected', () => {
-  const errors = validateInquiry({ ...valid, name: 'x'.repeat(101), email: `${'x'.repeat(250)}@example.com`, business: 'x'.repeat(121) });
+test('oversized personal fields are rejected', () => {
+  const errors = validateInquiry({ ...valid, name: 'x'.repeat(101), email: `${'x'.repeat(250)}@example.com` });
   assert.ok(errors.name);
   assert.ok(errors.email);
-  assert.ok(errors.business);
 });
 
-test('WhatsApp and email receive the exact same reviewed brief', () => {
-  const inquiry = prepare({ ...valid, business: 'Orbit & Co.', timeline: 'Within a month' });
+test('contact drafts include only the essential details', () => {
+  const inquiry = prepare(valid);
   const whatsapp = new URL(inquiry.whatsappUrl);
   const email = new URL(inquiry.emailUrl);
   assert.equal(whatsapp.origin, 'https://wa.me');
@@ -64,8 +62,10 @@ test('WhatsApp and email receive the exact same reviewed brief', () => {
   assert.equal(whatsapp.searchParams.get('text'), inquiry.message);
   assert.equal(email.pathname, 'qais@qdelta.in');
   assert.equal(email.searchParams.get('body'), inquiry.message);
-  assert.ok(inquiry.message.includes('Business / brand: Orbit & Co.'));
-  assert.ok(inquiry.message.includes('Timeline: Within a month'));
+  assert.ok(inquiry.message.includes(`Name: ${valid.name}`));
+  assert.ok(inquiry.message.includes(`Email: ${valid.email}`));
+  assert.ok(inquiry.message.includes(`Query:\n${valid.message}`));
+  assert.ok(!/Business|Timeline|Project:/.test(inquiry.message));
 });
 
 test('Unicode, plus signs, ampersands and line breaks survive URL encoding', () => {

@@ -15,6 +15,7 @@ export const HeroMetrics: React.FC<{ motionEnabled: boolean; reducedMotion: bool
         {METRICS.map((metric, index) => (
           <motion.div
             key={metric.title}
+            data-floating={motionEnabled && !shouldReduceMotion}
             initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
             whileInView={{ opacity: 1, y: 0 }}
             whileHover={!motionEnabled || shouldReduceMotion ? undefined : {

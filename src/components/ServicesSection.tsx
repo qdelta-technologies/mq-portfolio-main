@@ -152,7 +152,7 @@ export const ServicesSection: React.FC = () => {
   const { reducedMotion: shouldReduceMotion, ambientMotion } = useSiteMotion();
 
   return (
-    <AmbientSection id="services" pattern="blueprint" className="relative w-full py-14 sm:py-16 lg:py-20 bg-[#FAF9F6] overflow-hidden">
+    <AmbientSection id="services" pattern="blueprint" className="services-section relative w-full py-14 sm:py-16 lg:py-20 bg-[#FAF9F6] sm:overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <SectionHeader label={SERVICES_SECTION_DATA.label} watermark={SERVICES_SECTION_DATA.watermark}>
@@ -161,10 +161,11 @@ export const ServicesSection: React.FC = () => {
         </SectionHeader>
 
         {/* ================= 6-CARD SERVICES GRID (2 ROWS X 3 COLS) ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        <div className="services-stack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
           {SERVICES_LIST.map((service: ServiceItem, index: number) => (
             <motion.div
               key={service.id}
+              style={{ '--service-index': index } as React.CSSProperties}
               initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               whileHover={ambientMotion ? { y: -4, transition: { duration: 0.2, delay: 0 } } : undefined}

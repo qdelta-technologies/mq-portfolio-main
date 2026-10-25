@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useInView } from 'framer-motion';
+import { motion, useInView, useScroll, useSpring, useTransform } from 'framer-motion';
 import {
   Bot, BrainCircuit, Braces, Cloud, Code2, Database, FileText,
   GitBranch, Megaphone, Palette, PenTool, Sparkles, Workflow,
@@ -40,7 +40,7 @@ const ORBITS: OrbitRing[] = [
       { id: 'n8n', label: 'n8n', description: 'Connected workflow automation', Icon: Workflow, angle: 104 },
       { id: 'chatgpt', label: 'ChatGPT', description: 'Generative AI for practical tasks', Icon: Bot, angle: 150 },
       { id: 'github', label: 'Git & GitHub', description: 'Version control and collaboration', Icon: GitBranch, angle: 248 },
-      { id: 'uiux', label: 'UI/UX Design', description: 'User-focused digital experiences', Icon: Palette, angle: 320 },
+      { id: 'uiux', label: 'UI/UX Design', description: 'User-focused digital experiences', Icon: Palette, angle: 340 },
     ],
   },
   {
@@ -48,7 +48,7 @@ const ORBITS: OrbitRing[] = [
     skills: [
       { id: 'make', label: 'Make', description: 'No-code connected automations', Icon: Workflow, angle: 0 },
       { id: 'supabase', label: 'Supabase', description: 'Backend services and data', Icon: Database, angle: 51 },
-      { id: 'prompting', label: 'Prompt Engineering', description: 'Structured prompts for AI systems', Icon: Sparkles, angle: 103 },
+      { id: 'prompting', label: 'Prompt Engineering', description: 'Structured prompts for AI systems', Icon: Sparkles, angle: 90 },
       { id: 'canva', label: 'Canva', description: 'Visual assets and content design', Icon: Palette, angle: 130 },
       { id: 'content', label: 'Content Writing', description: 'Clear digital storytelling', Icon: FileText, angle: 206 },
       { id: 'social', label: 'Social Media Marketing', description: 'Content and audience strategy', Icon: Megaphone, angle: 257 },
@@ -62,6 +62,9 @@ export const SkillsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { amount: 0.08 });
   const { reducedMotion, pageVisible } = useSiteMotion();
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
+  const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25, restDelta: 0.001 });
+  const orbitY = useTransform(smoothProgress, [0, 1], ['-1.2%', '1.2%']);
 
   return (
     <AmbientSection
@@ -78,7 +81,7 @@ export const SkillsSection: React.FC = () => {
         </SectionHeader>
 
         <div className="skill-orbit-shell mx-auto">
-          <div className="skill-orbit-stage" role="group" aria-label="Select a skill to learn more">
+          <motion.div className="skill-orbit-stage" style={{ y: reducedMotion ? 0 : orbitY }} role="group" aria-label="Skills and tools">
             <div className="skill-orbit-core" aria-hidden="true">
               <span className="skill-orbit-core__letters">MQ</span>
               <span className="skill-orbit-core__caption">Creative × Technical</span>
@@ -103,7 +106,7 @@ export const SkillsSection: React.FC = () => {
                           onClick={() => setSelected(skill)}
                         >
                           <span className="skill-orbit-pill__icon"><skill.Icon aria-hidden="true" size={16} strokeWidth={2} /></span>
-                          <span>{skill.label}</span>
+                          <span className="skill-orbit-pill__text">{skill.label}</span>
                         </button>
                       </div>
                     </div>
@@ -111,7 +114,7 @@ export const SkillsSection: React.FC = () => {
                 })}
               </div>
             ))}
-          </div>
+          </motion.div>
 
         </div>
       </div>

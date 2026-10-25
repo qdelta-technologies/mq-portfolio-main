@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useSiteMotion } from './SiteMotion';
 
@@ -11,8 +11,31 @@ interface SectionHeaderProps {
 /** Shared Services-style heading, kept above each section's content layout. */
 export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, children }) => {
   const { reducedMotion } = useSiteMotion();
+  const headerRef = useRef<HTMLDivElement>(null);
+  const watermarkRef = useRef<HTMLSpanElement>(null);
+  const [watermarkScaleX, setWatermarkScaleX] = useState(1);
+
+  useLayoutEffect(() => {
+    const header = headerRef.current;
+    const word = watermarkRef.current;
+    if (!header || !word) return;
+
+    const fitWordmark = () => {
+      const availableWidth = Math.max(0, header.clientWidth - 24);
+      const naturalWidth = word.offsetWidth;
+      setWatermarkScaleX(naturalWidth > 0 ? Math.min(1, availableWidth / naturalWidth) : 1);
+    };
+
+    fitWordmark();
+    const observer = new ResizeObserver(fitWordmark);
+    observer.observe(header);
+    document.fonts?.ready.then(fitWordmark);
+    return () => observer.disconnect();
+  }, [watermark]);
+
   return (
   <motion.div
+    ref={headerRef}
     className="relative isolate flex min-h-24 sm:min-h-28 lg:min-h-32 flex-col items-center justify-center py-4 sm:py-5 text-center mb-8 sm:mb-10"
     style={{ containerType: 'inline-size' }}
     initial={reducedMotion ? false : { opacity: 0, y: 12 }}
@@ -23,10 +46,12 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
     <span
       aria-hidden="true"
       className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 font-black tracking-[-0.01em] text-[#cfc1ea] select-none pointer-events-none uppercase font-['Outfit','Plus_Jakarta_Sans',sans-serif] leading-none whitespace-nowrap -z-10"
-      // Scale by both available width and word length so long words fit on phones.
-      style={{ fontSize: `clamp(1rem, ${145 / watermark.length}cqi, 170px)` }}
+      // Keep every section's watermark height consistent; only compress long words to fit.
+      style={{ fontSize: 'clamp(1rem, 18.125cqi, 170px)' }}
     >
-      {watermark}
+      <span ref={watermarkRef} className="block w-max" style={{ transform: `scaleX(${watermarkScaleX})` }}>
+        {watermark}
+      </span>
     </span>
 
     <div className="relative flex items-center justify-center gap-2 mb-2.5">
