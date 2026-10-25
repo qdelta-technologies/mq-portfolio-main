@@ -36,8 +36,6 @@ export const AmbientSection = forwardRef<HTMLElement, AmbientSectionProps>(funct
         <div className="section-backdrop__glow section-backdrop__glow--one" />
         <div className="section-backdrop__glow section-backdrop__glow--two" />
         <div className="section-backdrop__orbits"><span /><span /><span /></div>
-        <div className="section-backdrop__crosshair section-backdrop__crosshair--one" />
-        <div className="section-backdrop__crosshair section-backdrop__crosshair--two" />
       </div>
       {children}
     </section>

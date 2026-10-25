@@ -238,7 +238,7 @@ export const HeroSection: React.FC = () => {
         >
           <OptimizedImage
             src={PERSONAL_INFO.portraitSrc}
-            sizes="(min-width: 1412px) and (hover: hover) and (pointer: fine) 480px, (min-width: 1280px) and (hover: hover) and (pointer: fine) 34vw, (min-width: 892px) 410px, (min-width: 640px) calc((100vw - 72px) / 2), 280px"
+            sizes="(min-width: 1412px) and (hover: hover) and (pointer: fine) 480px, (min-width: 1280px) and (hover: hover) and (pointer: fine) 34vw, (min-width: 892px) 410px, (min-width: 640px) calc((100vw - 72px) / 2), 240px"
             alt={`${PERSONAL_INFO.name} — AI Generalist`}
             className="block w-full h-auto object-contain object-bottom align-bottom drop-shadow-md select-none"
             loading="eager"

@@ -48,8 +48,8 @@ export const ExperienceSection: React.FC = () => {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label="My Journey" watermark="EXPERIENCE">
-          <span>{EXPERIENCE_SECTION_DATA.headingPrefix}</span>
-          <span className="text-violet-600">{EXPERIENCE_SECTION_DATA.headingHighlight}</span>
+          <span className="text-black">{EXPERIENCE_SECTION_DATA.headingPrefix}</span>
+          <span className="text-black">{EXPERIENCE_SECTION_DATA.headingHighlight}</span>
         </SectionHeader>
         <p className="text-sm sm:text-base text-copy-secondary font-medium max-w-2xl mx-auto text-center leading-relaxed mb-8 sm:mb-10">
           {EXPERIENCE_SECTION_DATA.description}
