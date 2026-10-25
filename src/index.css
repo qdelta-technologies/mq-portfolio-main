@@ -444,17 +444,15 @@ body {
   .skill-orbit-core__letters { font-size: clamp(24px, 8cqw, 32px); }
   .skill-orbit-core__caption { display: none; }
   .skill-orbit-core::after { content: 'TOOLKIT'; margin-top: 5px; font: 700 7px/1 var(--font-sans); letter-spacing: 0.12em; }
-  .skill-orbit-token { display: grid; place-items: center; width: clamp(44px, 12cqw, 48px); aspect-ratio: 1; padding: 0; border: 1px solid #c6b5df; border-radius: 50%; background: linear-gradient(145deg, #fff, #f2ecfc); color: #6523ce; cursor: pointer; box-shadow: 0 5px 12px -7px #3d23585c, inset 0 1px 0 #fff; transition: color 180ms, background-color 180ms, border-color 180ms, box-shadow 180ms; -webkit-tap-highlight-color: transparent; }
+  .skill-orbit-ring--mobile .skill-orbit-item { pointer-events: none; }
+  .skill-orbit-token { display: grid; place-items: center; width: clamp(44px, 12cqw, 48px); aspect-ratio: 1; padding: 0; border: 1px solid #c6b5df; border-radius: 50%; background: linear-gradient(145deg, #fff, #f2ecfc); color: #6523ce; box-shadow: 0 5px 12px -7px #3d23585c, inset 0 1px 0 #fff; -webkit-tap-highlight-color: transparent; }
   .skill-orbit-token__abbr { font: 800 10px/1 var(--font-display); letter-spacing: -0.03em; }
-  .skill-orbit-token[aria-pressed='true'] { color: #fff; border-color: #7631e5; background: linear-gradient(145deg, #9564ef, #6523ce); box-shadow: 0 0 0 4px #7631e514, 0 6px 16px -7px #6523ce88; }
-  .skill-orbit-token:focus-visible { outline: 2px solid #7631e5; outline-offset: 4px; }
   .skill-orbit-mobile-skills { display: grid; gap: 10px; margin-top: 20px; }
   .skill-name-row { overflow: hidden; padding-block: 2px; mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent); }
   .skill-name-track { display: flex; width: max-content; }
   .skill-name-group { display: flex; align-items: center; gap: 8px; flex-shrink: 0; padding-right: 8px; list-style: none; }
   .skill-name-chip { display: inline-flex; align-items: center; gap: 7px; min-height: 34px; padding: 7px 12px; border: 1px solid #ded3ee; border-radius: 999px; background: linear-gradient(135deg, #ffffffed, #f6f0ffed); color: #3d3155; font-size: 11px; font-weight: 600; white-space: nowrap; box-shadow: 0 3px 8px -6px #44247d66; }
   .skill-name-chip svg { flex-shrink: 0; color: #7631e5; }
-  .skill-name-chip[data-selected='true'] { border-color: #b795eb; background: #f0e7fc; color: #5420a0; }
 }
 @keyframes skill-names-scroll {
   to { transform: translateX(-50%); }
@@ -464,7 +462,6 @@ body {
   .skill-name-row:nth-child(2) .skill-name-track { animation-direction: reverse; animation-duration: 36s; }
   .skill-name-row:nth-child(3) .skill-name-track { animation-duration: 30s; }
   #skills[data-orbit-active='true'] .skill-name-track { animation-play-state: running; }
-  #skills:focus-within .skill-name-track { animation-play-state: paused; }
 }
 @media (max-width: 639px) and (prefers-reduced-motion: reduce) {
   .skill-name-row { mask-image: none; }
@@ -492,8 +489,8 @@ body {
   }
   #skills[data-orbit-active='true'] .skill-orbit-ring,
   #skills[data-orbit-active='true'] .skill-orbit-label { animation-play-state: running; }
-  #skills:focus-within .skill-orbit-ring,
-  #skills:focus-within .skill-orbit-label { animation-play-state: paused; }
+  #skills:focus-within .skill-orbit-ring--desktop,
+  #skills:focus-within .skill-orbit-ring--desktop .skill-orbit-label { animation-play-state: paused; }
 }
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
   #skills:has(.skill-orbit-pill:hover) .skill-orbit-ring,
