@@ -5,7 +5,7 @@ import { ContactPanel } from './ContactPanel';
 
 export const ContactSection: React.FC = () => {
   return (
-    <AmbientSection id="contact" pattern="contact" className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75">
+    <AmbientSection id="contact" pattern="contact" className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF9F6] border-t border-stroke/75">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label="Let's Work Together" watermark="CONTACT">
           <span>Have a </span>

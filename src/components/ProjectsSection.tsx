@@ -10,7 +10,6 @@ import {
   ArrowUpRight, 
   ChevronLeft, 
   ChevronRight, 
-  Play,
   Sparkles,
   Shield,
   Brain,
@@ -111,11 +110,13 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '',
 export const ProjectsSection: React.FC = () => {
   const { reducedMotion: shouldReduceMotion, pageVisible } = useSiteMotion();
   const carouselRef = useRef<HTMLDivElement>(null);
+  const touchStart = useRef<{ x: number; y: number } | null>(null);
+  const lastSwipeAt = useRef(0);
   const carouselInView = useInView(carouselRef, { amount: 0.2 });
 
   // Feature the newest project first, while keeping the full carousel intact.
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
+  const [isInteracting, setIsInteracting] = useState(false);
 
   const total = PROJECTS_LIST.length;
 
@@ -139,22 +140,32 @@ export const ProjectsSection: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [total, carouselInView, pageVisible]);
 
-  // Gentle autoplay with pause on hover
+  // Autoplay continues while browsing the section; pause only on its links/controls or keyboard focus.
   useEffect(() => {
-    if (isHovered || shouldReduceMotion || !pageVisible || !carouselInView) return;
-    const timer = setInterval(() => {
+    if (isInteracting || shouldReduceMotion || !pageVisible || !carouselInView) return;
+    const timer = setTimeout(() => {
       handleNext();
-    }, 5500);
-    return () => clearInterval(timer);
-  }, [isHovered, shouldReduceMotion, currentIndex, pageVisible, carouselInView]);
+    }, 4500);
+    return () => clearTimeout(timer);
+  }, [isInteracting, shouldReduceMotion, currentIndex, pageVisible, carouselInView]);
+
+  const handleSwipeEnd = (event: React.TouchEvent<HTMLDivElement>) => {
+    const start = touchStart.current;
+    touchStart.current = null;
+    if (!start || !event.changedTouches.length) return;
+    const deltaX = event.changedTouches[0].clientX - start.x;
+    const deltaY = event.changedTouches[0].clientY - start.y;
+    if (Math.abs(deltaX) < 48 || Math.abs(deltaX) < Math.abs(deltaY) * 1.2) return;
+    lastSwipeAt.current = Date.now();
+    if (deltaX < 0) handleNext();
+    else handlePrev();
+  };
 
   return (
     <AmbientSection
       id="projects"
       pattern="studio"
-      className="relative w-full py-16 sm:py-20 lg:py-28 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden select-none"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="relative w-full py-12 sm:py-16 lg:py-20 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden select-none"
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label="Selected Projects" watermark="PROJECTS">
@@ -163,17 +174,31 @@ export const ProjectsSection: React.FC = () => {
         </SectionHeader>
         
         {/* Center the existing carousel beneath the section heading. */}
-        <div className="relative w-full max-w-5xl mx-auto">
+        <div
+          className="relative w-full max-w-5xl mx-auto"
+          onMouseOver={event => { if (event.target instanceof Element && event.target.closest('a, button')) setIsInteracting(true); }}
+          onMouseOut={event => { if (!(event.relatedTarget instanceof Element) || !event.relatedTarget.closest('a, button')) setIsInteracting(false); }}
+          onFocusCapture={() => setIsInteracting(true)}
+          onBlurCapture={event => { if (!event.currentTarget.contains(event.relatedTarget)) setIsInteracting(false); }}
+        >
           <div className="relative w-full">
             <div className="relative w-full">
                 {/* 3D Perspective Stage */}
-                <div
+                <motion.div
                   ref={carouselRef}
                   role="region"
                   aria-roledescription="carousel"
                   aria-label="Selected projects"
-                  className="relative h-[420px] sm:h-[480px] md:h-[510px] w-full flex items-center justify-center"
-                  style={{ perspective: 1200 }}
+                  initial={shouldReduceMotion ? false : { opacity: 0, y: 18 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.15 }}
+                  transition={{ duration: shouldReduceMotion ? 0 : 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  onTouchStart={event => { touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }; }}
+                  onTouchEnd={handleSwipeEnd}
+                  onTouchCancel={() => { touchStart.current = null; }}
+                  onClickCapture={event => { if (Date.now() - lastSwipeAt.current < 400) { event.preventDefault(); event.stopPropagation(); } }}
+                  className="relative h-[400px] sm:h-[450px] md:h-[480px] w-full flex items-center justify-center"
+                  style={{ perspective: 1200, touchAction: 'pan-y' }}
                 >
                   {PROJECTS_LIST.map((project, idx) => {
                     // Calculate circular relative offset (-1 = left peek, 0 = center active, 1 = right peek)
@@ -252,6 +277,7 @@ export const ProjectsSection: React.FC = () => {
                         }}
                         className="w-[285px] sm:w-[350px] md:w-[390px] cursor-pointer"
                         onClick={() => {
+                          if (Date.now() - lastSwipeAt.current < 400) return;
                           if (isLeft) handlePrev();
                           if (isRight) handleNext();
                         }}
@@ -284,22 +310,6 @@ export const ProjectsSection: React.FC = () => {
                                     Featured Project
                                   </span>
                                 </div>
-                              )}
-
-                              {/* Circular Play / Preview Button on Visual */}
-                              {isCenter && (
-                                <a
-                                  href={project.link}
-                                  tabIndex={isCenter ? 0 : -1}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                  onClick={(e) => e.stopPropagation()}
-                                  className="absolute bottom-3 right-3 z-20 w-11 h-11 rounded-full bg-white text-slate-900 shadow-xl flex items-center justify-center hover:scale-110 active:scale-95 hover:bg-violet-600 hover:text-white transition-all duration-200"
-                                  aria-label={`Open ${project.title}`}
-                                  title="View Project Live"
-                                >
-                                  <Play className="w-4 h-4 fill-current ml-0.5" />
-                                </a>
                               )}
 
                               {/* Subtle Vignette Gradient for Depth */}
@@ -362,9 +372,9 @@ export const ProjectsSection: React.FC = () => {
                       </motion.div>
                     );
                   })}
-                </div>
+                 </motion.div>
 
-                {/* ================= REQUIREMENT 4: CAROUSEL NAVIGATION CONTROLS ================= */}
+                 {/* ================= REQUIREMENT 4: CAROUSEL NAVIGATION CONTROLS ================= */}
                 <div className="mt-6 flex items-center justify-center gap-6">
                   {/* Previous Button */}
                   <button

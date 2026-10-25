@@ -87,7 +87,7 @@ export const CertificationsSection: React.FC = () => {
   const timelineProgress = useTransform(scrollYProgress, [0.15, 0.85], shouldReduceMotion ? [1, 1] : [0, 1]);
 
   return (
-    <AmbientSection id="certificates" pattern="credentials" ref={containerRef} className="relative w-full py-10 sm:py-12 lg:py-16 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden">
+    <AmbientSection id="certificates" pattern="credentials" ref={containerRef} className="relative w-full py-10 sm:py-12 lg:py-14 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label={CERTIFICATIONS_SECTION_DATA.label} watermark={CERTIFICATIONS_SECTION_DATA.watermark}>
           <span>{CERTIFICATIONS_SECTION_DATA.headingPrefix}</span>

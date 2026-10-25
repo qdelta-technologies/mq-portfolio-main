@@ -13,7 +13,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
   const { reducedMotion } = useSiteMotion();
   return (
   <motion.div
-    className="relative isolate flex min-h-28 sm:min-h-36 lg:min-h-40 flex-col items-center justify-center py-4 sm:py-6 text-center mb-12 sm:mb-16"
+    className="relative isolate flex min-h-24 sm:min-h-28 lg:min-h-32 flex-col items-center justify-center py-4 sm:py-5 text-center mb-8 sm:mb-10"
     style={{ containerType: 'inline-size' }}
     initial={reducedMotion ? false : { opacity: 0, y: 12 }}
     whileInView={{ opacity: 1, y: 0 }}
@@ -22,7 +22,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
   >
     <span
       aria-hidden="true"
-      className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 font-black tracking-[-0.01em] text-[#ECEAF6] select-none pointer-events-none uppercase font-['Outfit','Plus_Jakarta_Sans',sans-serif] leading-none whitespace-nowrap -z-10"
+      className="absolute top-[46%] left-1/2 -translate-x-1/2 -translate-y-1/2 font-black tracking-[-0.01em] text-[#cfc1ea] select-none pointer-events-none uppercase font-['Outfit','Plus_Jakarta_Sans',sans-serif] leading-none whitespace-nowrap -z-10"
       // Scale by both available width and word length so long words fit on phones.
       style={{ fontSize: `clamp(1rem, ${145 / watermark.length}cqi, 170px)` }}
     >

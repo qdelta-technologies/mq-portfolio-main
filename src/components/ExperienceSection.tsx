@@ -6,7 +6,6 @@ import {
   Brain, 
   Users, 
   Rocket, 
-  Briefcase,
   Calendar,
   MapPin,
   Sparkles
@@ -45,34 +44,18 @@ export const ExperienceSection: React.FC = () => {
     <AmbientSection
       id="experience"
       pattern="ledger"
-      className="w-full py-16 sm:py-20 lg:py-24 bg-[#FAF9F6] border-t border-stroke/75"
+      className="w-full py-12 sm:py-16 lg:py-20 bg-[#FAF9F6] border-t border-stroke/75"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader label="My Journey" watermark="EXPERIENCE">
           <span>{EXPERIENCE_SECTION_DATA.headingPrefix}</span>
           <span className="text-violet-600">{EXPERIENCE_SECTION_DATA.headingHighlight}</span>
         </SectionHeader>
-        <p className="text-sm sm:text-base text-copy-secondary font-medium max-w-2xl mx-auto text-center leading-relaxed mb-10 sm:mb-14">
+        <p className="text-sm sm:text-base text-copy-secondary font-medium max-w-2xl mx-auto text-center leading-relaxed mb-8 sm:mb-10">
           {EXPERIENCE_SECTION_DATA.description}
         </p>
 
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between gap-3 mb-4">
-            <div className="flex items-center gap-3.5 min-w-0">
-              <div className="w-11 h-11 rounded-2xl bg-violet-100/70 border border-violet-200/60 flex items-center justify-center text-violet-700 shrink-0 shadow-xs">
-                <Briefcase aria-hidden="true" className="w-5 h-5" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="text-xl font-bold text-slate-900 tracking-tight font-display">Focus</h3>
-                <p className="text-xs sm:text-sm text-copy-muted font-medium">Roles • Purpose • Impact</p>
-              </div>
-            </div>
-            <span className="hidden sm:inline-flex items-center gap-2 rounded-xl border border-violet-100 bg-violet-50 px-3 py-2 text-xs font-semibold text-violet-700">
-              <Sparkles aria-hidden="true" className="w-4 h-4" /> Timeline
-            </span>
-          </div>
-          <div className="h-px bg-stroke/80 mb-7" />
-
           {/* The light numbered-list layout formerly used by Certifications. */}
           <div className="relative">
             <div className="space-y-3 sm:space-y-3.5">

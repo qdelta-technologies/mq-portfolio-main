@@ -152,7 +152,7 @@ export const ServicesSection: React.FC = () => {
   const { reducedMotion: shouldReduceMotion, ambientMotion } = useSiteMotion();
 
   return (
-    <AmbientSection id="services" pattern="blueprint" className="relative w-full py-20 sm:py-24 lg:py-28 bg-[#FAF9F6] overflow-hidden">
+    <AmbientSection id="services" pattern="blueprint" className="relative w-full py-14 sm:py-16 lg:py-20 bg-[#FAF9F6] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         <SectionHeader label={SERVICES_SECTION_DATA.label} watermark={SERVICES_SECTION_DATA.watermark}>
