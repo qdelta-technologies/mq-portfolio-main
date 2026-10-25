@@ -69,11 +69,8 @@ export const ExperienceSection: React.FC = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: shouldReduceMotion ? 0 : 0.45, delay: shouldReduceMotion ? 0 : index * 0.04, ease: [0.16, 1, 0.3, 1] }}
-                    className="relative flex items-start gap-3 sm:gap-3.5 group before:absolute before:left-[47px] sm:before:left-[51px] before:top-7 before:-bottom-10 sm:before:-bottom-[42px] before:w-0.5 before:bg-violet-200/70 last:before:hidden"
+                    className="relative flex items-start gap-3 sm:gap-3.5 group before:absolute before:left-[3px] before:top-7 before:-bottom-10 sm:before:-bottom-[42px] before:w-0.5 before:bg-violet-200/70 last:before:hidden"
                   >
-                    <span className="relative z-10 mt-4 w-8 h-7 sm:w-8.5 rounded-full bg-violet-50 text-violet-700 text-xs font-bold flex items-center justify-center border border-violet-100 shrink-0 shadow-xs">
-                      {item.step}
-                    </span>
                     <span aria-hidden="true" className="relative z-10 mt-6 w-2 h-2 rounded-full bg-violet-400 ring-2 ring-canvas shrink-0 group-hover:bg-violet-600" />
                     <article className={`experience-card premium-surface flex-1 min-w-0 rounded-xl sm:rounded-2xl bg-white border p-3 sm:p-4 shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_4px_16px_rgba(124,58,237,0.06)] transition-colors ${isCurrent ? 'border-violet-300' : 'border-stroke/90'}`}>
                       <div className="flex items-start gap-3 min-w-0">
@@ -91,10 +88,12 @@ export const ExperienceSection: React.FC = () => {
                               <span>{item.period}</span>
                             </span>
                           </div>
-                          <p className="flex items-start gap-1.5 text-[11px] sm:text-xs text-copy-muted mt-2">
-                            <MapPin aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0" />
-                            {item.location || 'Remote'}
-                          </p>
+                          {!['codtech-intern', 'wts-nova', 'qdelta-founder'].includes(item.id) && (
+                            <p className="flex items-start gap-1.5 text-[11px] sm:text-xs text-copy-muted mt-2">
+                              <MapPin aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0" />
+                              {item.location || 'Remote'}
+                            </p>
+                          )}
                           <p className="text-xs sm:text-[13px] text-copy-secondary font-medium leading-relaxed mt-2">{item.description}</p>
                         </div>
                       </div>

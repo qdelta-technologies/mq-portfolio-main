@@ -1,25 +1,27 @@
 import React, { useRef, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
 import { CONTACT_SECTION_DATA } from '../data/portfolioData';
-import { EMPTY_INQUIRY, prepareInquiry, validateInquiry, type InquiryErrors, type InquiryField, type InquiryValues } from '../utils/contactInquiry';
+import { EMPTY_INQUIRY, submitInquiry, validateInquiry, type InquiryErrors, type InquiryField, type InquiryValues } from '../utils/contactInquiry';
 
 const FIELD_IDS: Record<InquiryField, string> = {
-  name: 'inquiry-name', email: 'inquiry-email', message: 'inquiry-message',
+  name: 'inquiry-name', email: 'inquiry-email', whatsapp: 'inquiry-whatsapp', message: 'inquiry-message',
 };
-const FIELD_LABELS: Record<InquiryField, string> = { name: 'Name', email: 'Email', message: 'Query' };
+const FIELD_LABELS: Record<InquiryField, string> = { name: 'Name', email: 'Email', whatsapp: 'WhatsApp number', message: 'Query' };
 
 export const ProjectInquiryForm: React.FC = () => {
   const [values, setValues] = useState<InquiryValues>({ ...EMPTY_INQUIRY });
   const [errors, setErrors] = useState<InquiryErrors>({});
   const [submitted, setSubmitted] = useState(false);
-  const [draftOpened, setDraftOpened] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [sendStatus, setSendStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const sendingRef = useRef(false);
   const summaryRef = useRef<HTMLDivElement>(null);
   const errorEntries = Object.entries(errors) as [InquiryField, string][];
 
   const update = (field: InquiryField, value: string) => {
     const next = { ...values, [field]: value };
     setValues(next);
-    setDraftOpened(false);
+    setSendStatus('idle');
     if (submitted || errors[field]) setErrors(validateInquiry(next));
   };
   const validateField = (field: InquiryField) => {
@@ -40,8 +42,10 @@ export const ProjectInquiryForm: React.FC = () => {
       <AlertCircle aria-hidden="true" className="h-3.5 w-3.5 mt-0.5 shrink-0" />{errors[field]}
     </p>
   );
-  const submit = (event: React.FormEvent<HTMLFormElement>) => {
+  const submit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (sendingRef.current) return;
+    setSendStatus('idle');
     setSubmitted(true);
     const nextErrors = validateInquiry(values);
     setErrors(nextErrors);
@@ -49,16 +53,26 @@ export const ProjectInquiryForm: React.FC = () => {
       requestAnimationFrame(() => summaryRef.current?.focus());
       return;
     }
-    const inquiry = prepareInquiry(values, CONTACT_SECTION_DATA.email, CONTACT_SECTION_DATA.whatsapp);
-    window.location.href = inquiry.emailUrl;
-    setDraftOpened(true);
+    sendingRef.current = true;
+    setSending(true);
+    try {
+      await submitInquiry(values);
+      setSendStatus('success');
+      setValues({ ...EMPTY_INQUIRY });
+      setSubmitted(false);
+    } catch {
+      setSendStatus('error');
+    } finally {
+      sendingRef.current = false;
+      setSending(false);
+    }
   };
 
   return (
     <div className="inquiry-card">
       <h3 id="inquiry-title" className="text-xl sm:text-2xl font-display font-bold tracking-tight text-slate-950">Leave me a message</h3>
-      <p className="text-xs text-copy-secondary mt-2 mb-6">All three fields are required.</p>
-      <form aria-labelledby="inquiry-title" noValidate onSubmit={submit} className="space-y-5">
+      <p className="text-xs text-copy-secondary mt-2 mb-6">All fields are required.</p>
+      <form aria-labelledby="inquiry-title" aria-busy={sending} noValidate onSubmit={submit} className="space-y-5">
         {submitted && errorEntries.length > 0 && (
           <div ref={summaryRef} role="alert" tabIndex={-1} aria-labelledby="inquiry-error-title" className="inquiry-error-summary">
             <h4 id="inquiry-error-title" className="font-bold mb-1">Please check these details.</h4>
@@ -69,6 +83,7 @@ export const ProjectInquiryForm: React.FC = () => {
             </ul>
           </div>
         )}
+        <fieldset disabled={sending} className="min-w-0 space-y-5 disabled:opacity-70">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div className="inquiry-field">
             <label className="inquiry-label" htmlFor={FIELD_IDS.name}>Name</label>
@@ -82,14 +97,22 @@ export const ProjectInquiryForm: React.FC = () => {
           </div>
         </div>
         <div className="inquiry-field">
+          <label className="inquiry-label" htmlFor={FIELD_IDS.whatsapp}>WhatsApp number</label>
+          <input className="inquiry-input" id={FIELD_IDS.whatsapp} name="whatsapp" type="tel" inputMode="tel" autoComplete="tel" required maxLength={32} placeholder="+91 98765 43210" value={values.whatsapp} onChange={e => update('whatsapp', e.target.value)} onBlur={() => validateField('whatsapp')} {...fieldState('whatsapp')} aria-describedby={`${errors.whatsapp ? `${FIELD_IDS.whatsapp}-error ` : ''}inquiry-whatsapp-hint`} />
+          <p id="inquiry-whatsapp-hint" className="text-xs text-copy-secondary mt-2">Include your country code.</p>
+          {fieldError('whatsapp')}
+        </div>
+        <div className="inquiry-field">
           <label className="inquiry-label" htmlFor={FIELD_IDS.message}>Query</label>
           <textarea className="inquiry-input" id={FIELD_IDS.message} name="message" rows={5} required maxLength={2000} placeholder="How can I help you?" value={values.message} onChange={e => update('message', e.target.value)} onBlur={() => validateField('message')} {...fieldState('message')} />
           {fieldError('message')}
         </div>
+        </fieldset>
         <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 pt-1">
-          <button type="submit" className="inquiry-primary shrink-0">Submit</button>
+          <button type="submit" disabled={sending} className="inquiry-primary shrink-0 disabled:opacity-60 disabled:cursor-wait">{sending ? 'Sending…' : 'Submit'}</button>
         </div>
-        {draftOpened && <p role="status" className="text-xs text-copy-secondary leading-relaxed">Your email app was requested. Nothing has been sent yet. If it didn’t open, email {CONTACT_SECTION_DATA.email} directly. Your query is still here.</p>}
+        {sendStatus === 'success' && <p role="status" className="text-sm text-violet-700 leading-relaxed">Thank you! Your query has been submitted.</p>}
+        {sendStatus === 'error' && <p role="alert" className="text-xs text-[#a01437] leading-relaxed">We couldn’t confirm your submission. Your query is still here. Please try again or email <a className="underline break-words" href={`mailto:${CONTACT_SECTION_DATA.email}`}>{CONTACT_SECTION_DATA.email}</a>.</p>}
       </form>
     </div>
   );
