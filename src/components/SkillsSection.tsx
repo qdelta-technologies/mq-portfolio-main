@@ -9,6 +9,7 @@ import { AmbientSection } from './AmbientSection';
 import { SectionHeader } from './SectionHeader';
 import { useSiteMotion } from './SiteMotion';
 import { useHeroMotion } from '../hooks/useHeroMotion';
+import { useMediaQuery } from '../hooks/useMediaQuery';
 
 interface OrbitSkill {
   id: string;
@@ -72,6 +73,7 @@ export const SkillsSection: React.FC = () => {
   const inView = useInView(sectionRef, { amount: 0.08 });
   const { reducedMotion, pageVisible } = useSiteMotion();
   const { isDesktop, interactiveMotion } = useHeroMotion(sectionRef);
+  const isPhone = useMediaQuery('(max-width: 639px)');
   const pointerX = useSpring(0, { stiffness: 90, damping: 24 });
   const pointerY = useSpring(0, { stiffness: 90, damping: 24 });
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
@@ -112,7 +114,7 @@ export const SkillsSection: React.FC = () => {
               <span className="skill-orbit-core__caption">Creative × Technical</span>
             </div>
 
-            {ORBITS.map(ring => (
+            {!isPhone && ORBITS.map(ring => (
               <div className={`skill-orbit-ring skill-orbit-ring--desktop skill-orbit-ring--${ring.id}`} key={ring.id}>
                 {ring.skills.map(skill => {
                   const radians = skill.angle * Math.PI / 180;
@@ -140,7 +142,7 @@ export const SkillsSection: React.FC = () => {
               </div>
             ))}
 
-            {MOBILE_ORBITS.map((skills, ringIndex) => (
+            {isPhone && MOBILE_ORBITS.map((skills, ringIndex) => (
               <motion.div
                 className={`skill-orbit-ring skill-orbit-ring--mobile skill-orbit-ring--mobile-${ringIndex}`}
                 key={ringIndex}
@@ -165,7 +167,7 @@ export const SkillsSection: React.FC = () => {
               </motion.div>
             ))}
           </motion.div>
-          <div className="skill-orbit-mobile-skills" aria-label="Skills and tools">
+          {isPhone && <div className="skill-orbit-mobile-skills" aria-label="Skills and tools">
             {MOBILE_SKILL_ROWS.map((skills, rowIndex) => (
               <div className="skill-name-row" key={rowIndex}>
                 <div className="skill-name-track">
@@ -182,7 +184,7 @@ export const SkillsSection: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div>
+          </div>}
         </div>
       </div>
     </AmbientSection>

@@ -8,14 +8,7 @@ import { HeroAmbient } from './HeroAmbient';
 import { HeroMagneticLink } from './HeroMagneticLink';
 import { useHeroMotion } from '../hooks/useHeroMotion';
 import { PERSONAL_INFO } from '../data/portfolioData';
-
-const ROLES = [
-  'Designer',
-  'Developer',
-  'Marketer',
-  'Researcher',
-  'AI Generalist',
-];
+import { HeroRole } from './HeroRole';
 
 export const HeroSection: React.FC = () => {
   const heroRef = useRef<HTMLElement>(null);
@@ -23,10 +16,6 @@ export const HeroSection: React.FC = () => {
   const pointerX = useMotionValue(0);
   const pointerY = useMotionValue(0);
   const [portraitReady, setPortraitReady] = useState(false);
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayedText, setDisplayedText] = useState('');
-  const [isDeleting, setIsDeleting] = useState(false);
-  const [isComplete, setIsComplete] = useState(false);
 
   useEffect(() => {
     if (!interactiveMotion) { pointerX.set(0); pointerY.set(0); }
@@ -41,52 +30,6 @@ export const HeroSection: React.FC = () => {
       ease: [0.16, 1, 0.3, 1] as [number, number, number, number],
     },
   });
-
-  useEffect(() => {
-    if (isComplete || shouldReduceMotion || !isVisible) return;
-
-    const currentWord = ROLES[roleIndex];
-    const isLastWord = roleIndex === ROLES.length - 1;
-
-    let timer: ReturnType<typeof setTimeout>;
-
-    if (!isDeleting) {
-      // Typing phase
-      if (displayedText.length < currentWord.length) {
-        timer = setTimeout(() => {
-          setDisplayedText(currentWord.slice(0, displayedText.length + 1));
-        }, 45); // Snappy, fluid typing speed (no sluggishness)
-      } else {
-        // Current word is fully typed
-        if (isLastWord) {
-          // Permanently finish on "AI Generalist"
-          timer = setTimeout(() => {
-            setIsComplete(true);
-          }, 350);
-        } else {
-          // Natural reading pause before backspacing
-          timer = setTimeout(() => {
-            setIsDeleting(true);
-          }, 850);
-        }
-      }
-    } else {
-      // Deleting phase
-      if (displayedText.length > 0) {
-        timer = setTimeout(() => {
-          setDisplayedText(currentWord.slice(0, displayedText.length - 1));
-        }, 22); // Fast, effortless backspacing
-      } else {
-        // Word cleared: brief breathing pause then begin next role
-        timer = setTimeout(() => {
-          setIsDeleting(false);
-          setRoleIndex((prev) => prev + 1);
-        }, 120);
-      }
-    }
-
-    return () => clearTimeout(timer);
-  }, [displayedText, isDeleting, roleIndex, isComplete, shouldReduceMotion, isVisible]);
 
   return (
     <section
@@ -132,18 +75,7 @@ export const HeroSection: React.FC = () => {
         </h1>
 
         {/* Buttery Smooth Typewriter Subtitle */}
-        <div className="mt-2.5 sm:mt-3 h-8 sm:h-9 flex items-center justify-center">
-          <div className="inline-flex items-center text-base sm:text-lg md:text-xl font-bold text-slate-800 tracking-tight">
-            <span className="sr-only">{PERSONAL_INFO.title}</span>
-            <span aria-hidden="true">{shouldReduceMotion ? PERSONAL_INFO.title : displayedText}</span>
-            <span
-              className={`inline-block w-[2.5px] h-5 sm:h-6 bg-violet-600 ml-1 rounded-full transition-opacity duration-300 ${
-                isComplete || shouldReduceMotion ? 'opacity-0 pointer-events-none' : 'opacity-100 animate-pulse'
-              }`}
-              aria-hidden="true"
-            />
-          </div>
-        </div>
+        <HeroRole reducedMotion={shouldReduceMotion} visible={isVisible} />
       </div>
 
       {/* The intro follows normal grid flow at every breakpoint. */}

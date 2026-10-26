@@ -1,41 +1,16 @@
-import { useEffect, useState, type RefObject } from 'react';
+import { type RefObject } from 'react';
 import { useInView } from 'framer-motion';
+import { useSiteMotion } from '../components/SiteMotion';
+import { useMediaQuery } from './useMediaQuery';
 
 const DESKTOP_QUERY = '(min-width: 1280px) and (hover: hover) and (pointer: fine)';
-const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 /** Match the hero's CSS layout and stop interactive work when it is not visible. */
 export function useHeroMotion(heroRef: RefObject<HTMLElement | null>) {
-  // Subscribe directly so live OS preference changes also stop existing effects.
-  const [shouldReduceMotion, setShouldReduceMotion] = useState(() =>
-    typeof window === 'undefined' || window.matchMedia(REDUCED_MOTION_QUERY).matches
-  );
+  // The provider already tracks OS preferences and page visibility for every section.
+  const { reducedMotion: shouldReduceMotion, pageVisible: isPageVisible } = useSiteMotion();
   const isInView = useInView(heroRef, { initial: true, amount: 'some' });
-  const [isDesktop, setIsDesktop] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia(DESKTOP_QUERY).matches
-  );
-  const [isPageVisible, setIsPageVisible] = useState(() =>
-    typeof document === 'undefined' || document.visibilityState !== 'hidden'
-  );
-
-  useEffect(() => {
-    const query = window.matchMedia(DESKTOP_QUERY);
-    const reducedMotionQuery = window.matchMedia(REDUCED_MOTION_QUERY);
-    const updateDesktop = () => setIsDesktop(query.matches);
-    const updateReducedMotion = () => setShouldReduceMotion(reducedMotionQuery.matches);
-    const updateVisibility = () => setIsPageVisible(document.visibilityState !== 'hidden');
-    query.addEventListener('change', updateDesktop);
-    reducedMotionQuery.addEventListener('change', updateReducedMotion);
-    document.addEventListener('visibilitychange', updateVisibility);
-    updateDesktop();
-    updateReducedMotion();
-    updateVisibility();
-    return () => {
-      query.removeEventListener('change', updateDesktop);
-      reducedMotionQuery.removeEventListener('change', updateReducedMotion);
-      document.removeEventListener('visibilitychange', updateVisibility);
-    };
-  }, []);
+  const isDesktop = useMediaQuery(DESKTOP_QUERY);
 
   return {
     shouldReduceMotion,

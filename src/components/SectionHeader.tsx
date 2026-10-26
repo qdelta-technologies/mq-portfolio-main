@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { useSiteMotion } from './SiteMotion';
 
@@ -13,24 +13,27 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
   const { reducedMotion } = useSiteMotion();
   const headerRef = useRef<HTMLDivElement>(null);
   const watermarkRef = useRef<HTMLSpanElement>(null);
-  const [watermarkScaleX, setWatermarkScaleX] = useState(1);
 
   useLayoutEffect(() => {
     const header = headerRef.current;
     const word = watermarkRef.current;
     if (!header || !word) return;
 
+    let active = true;
     const fitWordmark = () => {
+      if (!active) return;
       const availableWidth = Math.max(0, header.clientWidth - 24);
       const naturalWidth = word.offsetWidth;
-      setWatermarkScaleX(naturalWidth > 0 ? Math.min(1, availableWidth / naturalWidth) : 1);
+      const scale = naturalWidth > 0 ? Math.min(1, availableWidth / naturalWidth) : 1;
+      const transform = `scaleX(${scale})`;
+      if (word.style.transform !== transform) word.style.transform = transform;
     };
 
     fitWordmark();
     const observer = new ResizeObserver(fitWordmark);
     observer.observe(header);
     document.fonts?.ready.then(fitWordmark);
-    return () => observer.disconnect();
+    return () => { active = false; observer.disconnect(); };
   }, [watermark]);
 
   return (
@@ -56,7 +59,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({ label, watermark, 
       // Keep every section's watermark height consistent; only compress long words to fit.
       style={{ fontSize: 'clamp(1rem, 18.125cqi, 170px)' }}
     >
-      <span ref={watermarkRef} className="block w-max" style={{ transform: `scaleX(${watermarkScaleX})` }}>
+      <span ref={watermarkRef} className="block w-max">
         {watermark}
       </span>
     </span>
