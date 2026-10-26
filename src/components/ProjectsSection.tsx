@@ -109,16 +109,29 @@ const TiltCard: React.FC<TiltCardProps> = ({ children, isActive, className = '',
 
 export const ProjectsSection: React.FC = () => {
   const { reducedMotion: shouldReduceMotion, pageVisible } = useSiteMotion();
+  const [desktopFan, setDesktopFan] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(min-width: 1280px) and (hover: hover) and (pointer: fine)').matches
+  );
   const carouselRef = useRef<HTMLDivElement>(null);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const lastSwipeAt = useRef(0);
   const carouselInView = useInView(carouselRef, { amount: 0.2 });
+  const fanInView = useInView(carouselRef, { amount: 0.4, once: true });
+  const fanExpanded = !desktopFan || shouldReduceMotion || fanInView;
 
   // Feature the newest project first, while keeping the full carousel intact.
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isInteracting, setIsInteracting] = useState(false);
 
   const total = PROJECTS_LIST.length;
+
+  useEffect(() => {
+    const query = window.matchMedia('(min-width: 1280px) and (hover: hover) and (pointer: fine)');
+    const update = () => setDesktopFan(query.matches);
+    update();
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
 
   const handlePrev = () => {
     setCurrentIndex((prev) => (prev > 0 ? prev - 1 : total - 1));
@@ -131,23 +144,23 @@ export const ProjectsSection: React.FC = () => {
   // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (!carouselInView || !pageVisible) return;
+      if (!carouselInView || !pageVisible || !fanExpanded) return;
       if (e.target instanceof HTMLElement && e.target.closest('input, textarea, select, [contenteditable="true"]')) return;
       if (e.key === 'ArrowLeft') handlePrev();
       if (e.key === 'ArrowRight') handleNext();
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [total, carouselInView, pageVisible]);
+  }, [total, carouselInView, pageVisible, fanExpanded]);
 
   // Autoplay continues while browsing the section; pause only on its links/controls or keyboard focus.
   useEffect(() => {
-    if (isInteracting || shouldReduceMotion || !pageVisible || !carouselInView) return;
+    if (isInteracting || shouldReduceMotion || !pageVisible || !carouselInView || !fanExpanded) return;
     const timer = setTimeout(() => {
       handleNext();
-    }, 4500);
+    }, 3500);
     return () => clearTimeout(timer);
-  }, [isInteracting, shouldReduceMotion, currentIndex, pageVisible, carouselInView]);
+  }, [isInteracting, shouldReduceMotion, currentIndex, pageVisible, carouselInView, fanExpanded]);
 
   const handleSwipeEnd = (event: React.TouchEvent<HTMLDivElement>) => {
     const start = touchStart.current;
@@ -185,7 +198,8 @@ export const ProjectsSection: React.FC = () => {
             <div className="relative w-full">
                 {/* 3D Perspective Stage */}
                 <motion.div
-                  ref={carouselRef}
+                   ref={carouselRef}
+                   data-fan-expanded={fanExpanded}
                   role="region"
                   aria-roledescription="carousel"
                   aria-label="Selected projects"
@@ -201,7 +215,7 @@ export const ProjectsSection: React.FC = () => {
                   style={{ perspective: 1200, touchAction: 'pan-y' }}
                 >
                   {PROJECTS_LIST.map((project, idx) => {
-                    // Calculate circular relative offset (-1 = left peek, 0 = center active, 1 = right peek)
+                    // Desktop adds one outer card per side to the existing curved fan.
                     let offset = idx - currentIndex;
                     // Handle circular wrapping for seamless experience
                     if (offset > total / 2) offset -= total;
@@ -210,10 +224,12 @@ export const ProjectsSection: React.FC = () => {
                     const isCenter = offset === 0;
                     const isLeft = offset === -1;
                     const isRight = offset === 1;
-                    const isVisible = Math.abs(offset) <= 1;
+                    const isOuter = desktopFan && Math.abs(offset) === 2;
+                    const isVisible = Math.abs(offset) <= (desktopFan ? 2 : 1) && (isCenter || fanExpanded);
 
                     // Compute dynamic transform styles for 3D stack
                     let xOffset = '0%';
+                    let yOffset = 0;
                     let scale = 1;
                     let rotateZ = 0;
                     let rotateY = 0;
@@ -221,7 +237,14 @@ export const ProjectsSection: React.FC = () => {
                     let zIndex = 30;
                     let blur = 'blur(0px)';
 
-                    if (isCenter) {
+                    if (!fanExpanded && !isCenter) {
+                      // Keep the side cards tucked behind the featured card until the reveal.
+                      xOffset = '0%';
+                      yOffset = 12;
+                      scale = 0.92;
+                      opacity = 0;
+                      zIndex = 10;
+                    } else if (isCenter) {
                       xOffset = '0%';
                       scale = 1.02;
                       rotateZ = 0;
@@ -245,6 +268,15 @@ export const ProjectsSection: React.FC = () => {
                       opacity = 0.82;
                       zIndex = 20;
                       blur = 'blur(0.5px)';
+                    } else if (isOuter) {
+                      xOffset = offset < 0 ? '-108%' : '108%';
+                      yOffset = 28;
+                      scale = 0.74;
+                      rotateZ = offset < 0 ? -9 : 9;
+                      rotateY = offset < 0 ? 14 : -14;
+                      opacity = 0.68;
+                      zIndex = 10;
+                      blur = 'blur(0.8px)';
                     } else {
                       xOffset = offset < 0 ? '-110%' : '110%';
                       scale = 0.75;
@@ -256,9 +288,12 @@ export const ProjectsSection: React.FC = () => {
                     return (
                       <motion.div
                         key={project.id}
+                        data-project-offset={offset}
+                        data-project-visible={isVisible}
                         initial={false}
                         animate={{
                           x: xOffset,
+                          y: yOffset,
                           scale,
                           rotate: rotateZ,
                           rotateY,
@@ -267,8 +302,8 @@ export const ProjectsSection: React.FC = () => {
                         }}
                         transition={
                           shouldReduceMotion
-                            ? { duration: 0.2 }
-                            : { type: 'spring', stiffness: 240, damping: 26, mass: 0.8 }
+                             ? { duration: 0 }
+                             : { type: 'spring', stiffness: desktopFan ? 150 : 240, damping: 26, mass: 0.8 }
                         }
                         style={{
                           position: 'absolute',
@@ -279,7 +314,8 @@ export const ProjectsSection: React.FC = () => {
                         onClick={() => {
                           if (Date.now() - lastSwipeAt.current < 400) return;
                           if (isLeft) handlePrev();
-                          if (isRight) handleNext();
+                           if (isRight) handleNext();
+                           if (isOuter) setCurrentIndex(idx);
                         }}
                       >
                         {/* Tilt Interaction on the Card */}

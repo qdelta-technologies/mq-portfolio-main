@@ -8,6 +8,7 @@ import {
 import { AmbientSection } from './AmbientSection';
 import { SectionHeader } from './SectionHeader';
 import { useSiteMotion } from './SiteMotion';
+import { useHeroMotion } from '../hooks/useHeroMotion';
 
 interface OrbitSkill {
   id: string;
@@ -70,9 +71,12 @@ export const SkillsSection: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const inView = useInView(sectionRef, { amount: 0.08 });
   const { reducedMotion, pageVisible } = useSiteMotion();
+  const { isDesktop, interactiveMotion } = useHeroMotion(sectionRef);
+  const pointerX = useSpring(0, { stiffness: 90, damping: 24 });
+  const pointerY = useSpring(0, { stiffness: 90, damping: 24 });
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25, restDelta: 0.001 });
-  const orbitY = useTransform(smoothProgress, [0, 1], ['-1.2%', '1.2%']);
+  const orbitY = useTransform(smoothProgress, [0, 1], isDesktop ? ['-3%', '3%'] : ['-1.2%', '1.2%']);
 
   return (
     <AmbientSection
@@ -80,6 +84,13 @@ export const SkillsSection: React.FC = () => {
       ref={sectionRef}
       pattern="constellation"
       data-orbit-active={!reducedMotion && pageVisible && inView}
+      onPointerMove={interactiveMotion ? event => {
+        if (event.pointerType !== 'mouse') return;
+        const bounds = event.currentTarget.getBoundingClientRect();
+        pointerX.set(Math.max(-8, Math.min(8, (event.clientX - bounds.left - bounds.width / 2) / bounds.width * 16)));
+        pointerY.set(Math.max(-5, Math.min(5, -(event.clientY - bounds.top - bounds.height / 2) / bounds.height * 10)));
+      } : undefined}
+      onPointerLeave={() => { pointerX.set(0); pointerY.set(0); }}
       className="relative w-full py-12 sm:py-16 lg:py-20 bg-[#FAF9F6] border-t border-stroke/75 overflow-hidden"
     >
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -89,7 +100,7 @@ export const SkillsSection: React.FC = () => {
         </SectionHeader>
 
         <div className="skill-orbit-shell mx-auto">
-          <motion.div className="skill-orbit-stage" style={{ y: reducedMotion ? 0 : orbitY }} role="group" aria-label="Skills and tools">
+          <motion.div className="skill-orbit-stage" style={{ y: reducedMotion ? 0 : orbitY, x: interactiveMotion ? pointerX : 0, rotateX: interactiveMotion ? pointerY : 0 }} role="group" aria-label="Skills and tools">
             <div className="skill-orbit-core" aria-hidden="true">
               <span className="skill-orbit-core__letters">MQ</span>
               <span className="skill-orbit-core__caption">Creative × Technical</span>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowUp, Globe, Mail } from 'lucide-react';
+import { Globe, Mail } from 'lucide-react';
 import { GithubIcon, InstagramIcon, LinkedinIcon, WhatsappIcon } from './SocialIcons';
 import { PERSONAL_INFO, NAV_ITEMS, SOCIAL_LINKS } from '../data/portfolioData';
 import { BrandWordmark } from './BrandWordmark';
@@ -19,17 +19,17 @@ export const Footer: React.FC = () => {
   const getSocialIcon = (iconName: string) => {
     switch (iconName) {
       case 'github':
-        return <GithubIcon className="w-4 h-4" />;
+        return <GithubIcon className="w-5 h-5 sm:w-4 sm:h-4" />;
       case 'linkedin':
-        return <LinkedinIcon className="w-4 h-4" />;
+        return <LinkedinIcon className="w-5 h-5 sm:w-4 sm:h-4" />;
       case 'instagram':
-        return <InstagramIcon className="w-4 h-4" />;
+        return <InstagramIcon className="w-5 h-5 sm:w-4 sm:h-4" />;
       case 'whatsapp':
-        return <WhatsappIcon className="w-4 h-4" />;
+        return <WhatsappIcon className="w-5 h-5 sm:w-4 sm:h-4" />;
       case 'globe':
-        return <Globe className="w-4 h-4" />;
+        return <Globe className="w-5 h-5 sm:w-4 sm:h-4" />;
       default:
-        return <Mail className="w-4 h-4" />;
+        return <Mail className="w-5 h-5 sm:w-4 sm:h-4" />;
     }
   };
 
@@ -58,8 +58,8 @@ export const Footer: React.FC = () => {
             ))}
           </nav>
 
-          {/* Social Links & Back to Top / Right */}
-          <div className="flex max-w-full flex-wrap justify-center items-center gap-1.5 sm:gap-3">
+          {/* Social Links / Right */}
+          <div className="flex max-w-full flex-wrap justify-center items-center gap-2 sm:gap-3">
             {SOCIAL_LINKS.map((link) => (
               <a
                 key={link.name}
@@ -67,22 +67,23 @@ export const Footer: React.FC = () => {
                 target={link.icon === 'mail' ? undefined : '_blank'}
                 rel={link.icon === 'mail' ? undefined : 'noopener noreferrer'}
                 aria-label={link.ariaLabel}
-                className="w-9 h-9 rounded-full bg-slate-200/80 hover:bg-violet-100 text-slate-800 hover:text-violet-800 border border-slate-300/80 flex items-center justify-center transition-all duration-200"
+                className="w-12 h-12 sm:w-9 sm:h-9 shrink-0 rounded-full bg-slate-200/80 hover:bg-violet-100 text-slate-800 hover:text-violet-800 border border-slate-300/80 flex items-center justify-center transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-violet-600"
               >
                 {getSocialIcon(link.icon)}
               </a>
             ))}
 
-            {/* Back to Top Button */}
-            <button
-              type="button"
-              onClick={scrollToTop}
-              aria-label="Back to top"
-              className="w-9 h-9 rounded-full bg-slate-950 hover:bg-violet-600 text-white flex items-center justify-center transition-all duration-200 shadow-sm cursor-pointer"
-            >
-              <ArrowUp className="w-4 h-4" />
-            </button>
           </div>
+        </div>
+
+        <div className="flex justify-center pt-3">
+          <button
+            type="button"
+            onClick={scrollToTop}
+            className="min-h-11 px-4 rounded-lg text-sm font-semibold text-violet-800 underline underline-offset-4 decoration-violet-300 hover:text-violet-950 hover:decoration-violet-700 transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-600"
+          >
+            Move to top
+          </button>
         </div>
 
         {/* Copyright & Subtext Row */}

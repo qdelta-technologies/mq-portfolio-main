@@ -72,29 +72,29 @@ export const ExperienceSection: React.FC = () => {
                     className="relative flex items-start gap-3 sm:gap-3.5 group before:absolute before:left-[3px] before:top-7 before:-bottom-10 sm:before:-bottom-[42px] before:w-0.5 before:bg-violet-200/70 last:before:hidden"
                   >
                     <span aria-hidden="true" className="relative z-10 mt-6 w-2 h-2 rounded-full bg-violet-400 ring-2 ring-canvas shrink-0 group-hover:bg-violet-600" />
-                    <article className={`experience-card premium-surface flex-1 min-w-0 rounded-xl sm:rounded-2xl bg-white border p-3 sm:p-4 shadow-[0_2px_8px_rgba(15,23,42,0.02)] hover:border-violet-300 hover:shadow-[0_4px_16px_rgba(124,58,237,0.06)] transition-colors ${isCurrent ? 'border-violet-300' : 'border-stroke/90'}`}>
+                    <article className={`experience-card premium-surface flex-1 min-w-0 rounded-xl sm:rounded-2xl bg-white border p-3 sm:p-4 shadow-[0_4px_16px_-6px_rgba(49,25,78,0.12)] hover:border-violet-700 hover:shadow-[0_6px_22px_-8px_rgba(124,58,237,0.18)] transition-colors ${isCurrent ? 'border-violet-700' : 'border-[#8C72AA]'}`}>
                       <div className="flex items-start gap-3 min-w-0">
-                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-violet-50 border border-violet-200 flex items-center justify-center shrink-0">
+                        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-violet-100 border border-[#A88ACB] flex items-center justify-center shrink-0">
                           {getExperienceIcon(item.id, isCurrent)}
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-2">
                             <div className="min-w-0">
-                              <h4 className="text-sm sm:text-base font-bold text-slate-900 font-display leading-snug">{item.role}</h4>
-                              <p className="text-xs sm:text-sm text-copy-secondary font-semibold mt-1">{item.organization}</p>
+                              <h4 className="text-sm sm:text-base font-bold text-black font-display leading-snug">{item.role}</h4>
+                              <p className="text-xs sm:text-sm text-slate-800 font-semibold mt-1">{item.organization}</p>
                             </div>
-                            <span className="inline-flex self-start max-w-full items-start gap-1.5 rounded-full border border-stroke/80 bg-slate-50 px-2.5 py-1 text-[11px] font-semibold text-copy-secondary lg:max-w-[230px] lg:shrink-0">
+                            <span className="inline-flex self-start max-w-full items-start gap-1.5 rounded-full border border-violet-400/60 bg-violet-100/55 backdrop-blur-sm px-2.5 py-1 text-[11px] font-semibold text-violet-950 lg:max-w-[230px] lg:shrink-0">
                               <Calendar aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0" />
                               <span>{item.period}</span>
                             </span>
                           </div>
                           {!['codtech-intern', 'wts-nova', 'qdelta-founder'].includes(item.id) && (
-                            <p className="flex items-start gap-1.5 text-[11px] sm:text-xs text-copy-muted mt-2">
+                            <p className="flex items-start gap-1.5 text-[11px] sm:text-xs text-copy-secondary mt-2">
                               <MapPin aria-hidden="true" className="w-3 h-3 mt-0.5 shrink-0" />
                               {item.location || 'Remote'}
                             </p>
                           )}
-                          <p className="text-xs sm:text-[13px] text-copy-secondary font-medium leading-relaxed mt-2">{item.description}</p>
+                          <p className="text-xs sm:text-[13px] text-slate-800 font-medium leading-relaxed mt-2">{item.description}</p>
                         </div>
                       </div>
                     </article>

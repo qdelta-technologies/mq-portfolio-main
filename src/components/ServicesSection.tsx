@@ -175,23 +175,23 @@ export const ServicesSection: React.FC = () => {
                 delay: shouldReduceMotion ? 0 : index * 0.08,
                 ease: [0.16, 1, 0.3, 1],
               }}
-              className="service-card premium-surface group relative rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7.5 border border-slate-300 shadow-[0_4px_20px_-4px_rgba(15,23,42,0.08)] hover:shadow-[0_20px_45px_-10px_rgba(124,58,237,0.16)] hover:border-violet-500 transition-[border-color,box-shadow] duration-300 overflow-hidden flex flex-col justify-start"
+              className="service-card premium-surface group relative rounded-xl sm:rounded-2xl bg-white p-6 sm:p-7.5 border border-[#8C72AA] shadow-[0_5px_22px_-6px_rgba(49,25,78,0.16)] hover:shadow-[0_20px_45px_-10px_rgba(124,58,237,0.2)] hover:border-violet-700 transition-[border-color,box-shadow] duration-300 overflow-hidden flex flex-col justify-start"
             >
               {/* Left Vertical Purple Accent Bar */}
               <span className="w-1.5 h-8.5 rounded-full bg-violet-600 absolute left-4 top-6.5 group-hover:h-11 group-hover:bg-violet-700 transition-all duration-300" />
 
               {/* Circular Lavender Icon Badge */}
-              <div className="w-13 h-13 rounded-full bg-violet-50 border border-violet-200 flex items-center justify-center mb-5 ml-1.5 group-hover:bg-violet-100 group-hover:scale-105 group-hover:border-violet-300 transition-all duration-300 shadow-xs shrink-0">
+              <div className="w-13 h-13 rounded-full bg-violet-100 border border-[#A88ACB] flex items-center justify-center mb-5 ml-1.5 group-hover:bg-violet-100 group-hover:scale-105 group-hover:border-violet-600 transition-all duration-300 shadow-xs shrink-0">
                 <ServiceIcon id={service.id} />
               </div>
 
               {/* Service Title */}
-              <h3 className="text-lg sm:text-xl font-bold text-slate-950 group-hover:text-violet-700 transition-colors tracking-tight mb-2 font-display leading-snug">
+              <h3 className="text-lg sm:text-xl font-bold text-black group-hover:text-violet-700 transition-colors tracking-tight mb-2 font-display leading-snug">
                 {service.title}
               </h3>
 
               {/* Service Description - High Contrast */}
-              <p className="text-sm text-slate-700 font-medium leading-relaxed">
+              <p className="text-sm text-slate-800 font-medium leading-relaxed">
                 {service.description}
               </p>
             </motion.div>

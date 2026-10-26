@@ -35,6 +35,20 @@ body {
   min-height: 100vh;
 }
 
+/* Native SVG cursor: no tracking scripts or motion lag; desktop pointers only. */
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  :root body,
+  :root a,
+  :root button,
+  :root [role='button'],
+  :root .cursor-pointer {
+    cursor: url('/cursors/purple-pointer.svg') 2 2, auto;
+  }
+  :root input:not([type='button']):not([type='submit']):not([type='checkbox']):not([type='radio']),
+  :root textarea,
+  :root [contenteditable='true'] { cursor: text; }
+}
+
 /* Phone: a natural reading flow without the desktop statistics. */
 .hero-section {
   display: grid;
@@ -431,6 +445,18 @@ body {
 .skill-orbit-description__detail { font-weight: 500; }
 .skill-orbit-ring--mobile, .skill-orbit-mobile-skills { display: none; }
 
+/* Compact desktop constellation; phone and tablet art direction stays unchanged. */
+@media (min-width: 1280px) and (hover: hover) and (pointer: fine) {
+  #skills { padding-block: 48px; }
+  #skills .section-header { margin-bottom: 12px; }
+  #skills .skill-orbit-shell { width: min(100%, 760px); padding-block: 8px; perspective: 1200px; }
+  #skills .skill-orbit-ring { border-color: #9170bb99; }
+  #skills .skill-orbit-ring--middle { border-color: #9672ba80; }
+  #skills .skill-orbit-pill { color: #21132f; border-color: #8c72aa; background: linear-gradient(145deg, #fff, #f4eefd); font-size: 11px; box-shadow: 0 6px 16px -8px #32144c66, 0 2px 0 -1px #bca6d7, inset 0 1px 1px #fff; }
+  #skills .skill-orbit-pill__icon { color: #5419ad; background: #e9ddfa; border-color: #b79ad9; }
+  #skills .skill-orbit-pill:is(:hover, [aria-pressed='true']) { color: #3b0f75; border-color: #6523ce; background: #f0e5ff; }
+}
+
 /* Phones get a compact circular tool dial instead of stretched, tiny text pills. */
 @media (max-width: 639px) {
   .skill-orbit-shell { width: min(100%, 400px); padding-block: 4px; }
@@ -528,7 +554,7 @@ body {
 }
 
 /* Contact: one quiet surface, direct contact details, and three essential fields. */
-.contact-layout { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1120px; margin-inline: auto; overflow: hidden; border: 1px solid #e1dbe9; border-radius: 24px; background: #fff; box-shadow: 0 20px 70px -40px #39235440; }
+.contact-layout { display: grid; grid-template-columns: minmax(0, 1fr); max-width: 1120px; margin-inline: auto; overflow: hidden; border: 1px solid #5b218c; border-radius: 24px; background: #fff; box-shadow: 0 20px 70px -40px #39235440; }
 .contact-invitation { position: relative; isolation: isolate; overflow: hidden; min-width: 0; padding: 28px 24px; border-radius: 24px 24px 0 0; color: #fff; background: radial-gradient(ellipse at 100% 0%, #45237c88, transparent 65%), linear-gradient(150deg, #11172b, #0a0e1a); border-bottom: 1px solid #36405b; box-shadow: inset 0 1px 0 #ffffff14; }
 .contact-invitation::before { content: ''; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(#c1afe810 1px, transparent 1px), linear-gradient(90deg, #c1afe810 1px, transparent 1px); background-size: 56px 56px; mask-image: linear-gradient(150deg, #000, transparent 80%); pointer-events: none; }
 .contact-invitation::after { content: ''; position: absolute; z-index: -1; right: -150px; bottom: -150px; width: 460px; height: 460px; border-radius: 50%; border: 1px solid #ae89fa2b; box-shadow: 0 0 0 48px #ae89fa0a, 0 0 0 96px #ae89fa08, 0 0 0 144px #ae89fa05; pointer-events: none; }
@@ -542,10 +568,10 @@ body {
 .inquiry-card { position: relative; isolation: isolate; overflow: hidden; min-width: 0; padding: 28px 24px; background: radial-gradient(ellipse at 100% 0%, rgba(118, 49, 229, 0.055), transparent 46%), linear-gradient(145deg, #fff 15%, #fcfaff 100%); }
 .inquiry-card::before { content: ''; position: absolute; inset: 0; z-index: -1; background-image: linear-gradient(rgba(118, 49, 229, 0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(118, 49, 229, 0.035) 1px, transparent 1px); background-size: 40px 40px; mask-image: linear-gradient(135deg, #000 0%, transparent 78%); pointer-events: none; }
 .inquiry-field { min-width: 0; }
-.inquiry-label { display: block; margin-bottom: 8px; color: #253047; font-size: 12px; font-weight: 700; line-height: 1.5; }
-.inquiry-input { display: block; width: 100%; min-width: 0; min-height: 48px; padding: 12px 14px; border: 1px solid #cbd2dc; border-radius: 12px; background: #fff; color: #162035; font: inherit; font-size: 16px; line-height: 1.5; transition: border-color 160ms, box-shadow 160ms; }
-.inquiry-input::placeholder { color: #68778a; opacity: 1; }
-.inquiry-input:focus-visible { outline: 2px solid #7631e5; outline-offset: 2px; border-color: #a987e9; box-shadow: 0 0 0 5px #7631e508; }
+.inquiry-label { display: block; margin-bottom: 8px; color: #21132f; font-size: 12px; font-weight: 700; line-height: 1.5; }
+.inquiry-input { display: block; width: 100%; min-width: 0; min-height: 48px; padding: 12px 14px; border: 1px solid #6b4599; border-radius: 12px; background: #fff; color: #21132f; font: inherit; font-size: 16px; line-height: 1.5; transition: border-color 160ms, box-shadow 160ms; }
+.inquiry-input::placeholder { color: #526176; opacity: 1; }
+.inquiry-input:focus-visible { outline: 2px solid #7631e5; outline-offset: 2px; border-color: #4c1d75; box-shadow: 0 0 0 5px #7631e510; }
 .inquiry-input[aria-invalid='true'] { border-color: #b52342; background: #fffafb; }
 textarea.inquiry-input { min-height: 132px; resize: none; }
 .inquiry-error { display: flex; align-items: start; gap: 6px; margin-top: 7px; color: #a01437; font-size: 12px; line-height: 1.5; }

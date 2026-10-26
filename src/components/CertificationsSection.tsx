@@ -112,7 +112,7 @@ export const CertificationsSection: React.FC = () => {
                 </div>
                 <p className="text-sm text-copy-on-dark leading-relaxed">{CERTIFICATIONS_SECTION_DATA.description}</p>
               </div>
-              <div className="flex items-start gap-2.5 border-t border-stroke-on-dark/80 pt-4">
+              <div className="hidden xl:flex items-start gap-2.5 border-t border-stroke-on-dark/80 pt-4">
                 <Sparkles aria-hidden="true" className="w-4 h-4 text-violet-300 shrink-0 mt-0.5" />
                 <p className="text-xs text-copy-on-dark leading-relaxed">Professional credentials and skill-based achievements.</p>
               </div>
