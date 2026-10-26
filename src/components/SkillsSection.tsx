@@ -77,6 +77,12 @@ export const SkillsSection: React.FC = () => {
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 80, damping: 25, restDelta: 0.001 });
   const orbitY = useTransform(smoothProgress, [0, 1], isDesktop ? ['-3%', '3%'] : ['-1.2%', '1.2%']);
+  const innerScrollRotation = useTransform(smoothProgress, [0, 1], [-90, 90]);
+  const outerScrollRotation = useTransform(smoothProgress, [0, 1], [-130, 130]);
+  const innerCounterRotation = useTransform(innerScrollRotation, angle => -angle);
+  const outerCounterRotation = useTransform(outerScrollRotation, angle => -angle);
+  const mobileRotations = [innerScrollRotation, outerScrollRotation];
+  const mobileCounterRotations = [innerCounterRotation, outerCounterRotation];
 
   return (
     <AmbientSection
@@ -135,22 +141,28 @@ export const SkillsSection: React.FC = () => {
             ))}
 
             {MOBILE_ORBITS.map((skills, ringIndex) => (
-              <div className={`skill-orbit-ring skill-orbit-ring--mobile skill-orbit-ring--mobile-${ringIndex}`} key={ringIndex} aria-hidden="true">
+              <motion.div
+                className={`skill-orbit-ring skill-orbit-ring--mobile skill-orbit-ring--mobile-${ringIndex}`}
+                key={ringIndex}
+                aria-hidden="true"
+                style={{ rotate: reducedMotion ? 0 : mobileRotations[ringIndex] }}
+                transformTemplate={(_, transform) => `translate(-50%, -50%) ${transform === 'none' ? '' : transform}`}
+              >
                 {skills.map((skill, index) => {
                   const radians = (index * 45 - 90 + ringIndex * 22.5) * Math.PI / 180;
                   return (
                     <div className="skill-orbit-item" key={skill.id} style={{ left: `${50 + Math.cos(radians) * 50}%`, top: `${50 + Math.sin(radians) * 50}%` }}>
-                      <div className="skill-orbit-label">
+                      <motion.div className="skill-orbit-label" style={{ rotate: reducedMotion ? 0 : mobileCounterRotations[ringIndex] }}>
                         <span className="skill-orbit-token">
                           {MOBILE_ABBREVIATIONS[skill.id]
                             ? <span aria-hidden="true" className="skill-orbit-token__abbr">{MOBILE_ABBREVIATIONS[skill.id]}</span>
                             : <skill.Icon aria-hidden="true" size={19} strokeWidth={1.8} />}
                         </span>
-                      </div>
+                      </motion.div>
                     </div>
                   );
                 })}
-              </div>
+              </motion.div>
             ))}
           </motion.div>
           <div className="skill-orbit-mobile-skills" aria-label="Skills and tools">

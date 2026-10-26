@@ -505,16 +505,16 @@ body {
   50% { transform: rotate(-6deg); }
 }
 @media (prefers-reduced-motion: no-preference) {
-  #skills .skill-orbit-ring {
+  #skills .skill-orbit-ring--desktop {
     animation: skill-ring-turn var(--orbit-duration) ease-in-out infinite;
     animation-play-state: paused;
   }
-  #skills .skill-orbit-label {
+  #skills .skill-orbit-ring--desktop .skill-orbit-label {
     animation: skill-label-counterturn var(--orbit-duration) ease-in-out infinite;
     animation-play-state: paused;
   }
-  #skills[data-orbit-active='true'] .skill-orbit-ring,
-  #skills[data-orbit-active='true'] .skill-orbit-label { animation-play-state: running; }
+  #skills[data-orbit-active='true'] .skill-orbit-ring--desktop,
+  #skills[data-orbit-active='true'] .skill-orbit-ring--desktop .skill-orbit-label { animation-play-state: running; }
   #skills:focus-within .skill-orbit-ring--desktop,
   #skills:focus-within .skill-orbit-ring--desktop .skill-orbit-label { animation-play-state: paused; }
 }
